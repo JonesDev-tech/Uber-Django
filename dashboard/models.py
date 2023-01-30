@@ -21,6 +21,8 @@ class Profile(models.Model):
 class Group(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     groupNum = models.IntegerField(blank=False, null=False)
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name + '(' + str(self.groupNum) + ')'
 
 class Ride(models.Model):
     # search first if not find create a new one
