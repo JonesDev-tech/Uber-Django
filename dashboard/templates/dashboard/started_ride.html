@@ -73,7 +73,14 @@
       <strong class="mb-1">Destination</strong>
       <small class="text-muted">{{ride.dest}}</small>
     </div>
-{#    <div class="col-10 mb-1 small"></div>#}
+    <div class="col-10 mb-1 small">
+        <strong class="mb-1">Shared By:</strong> <br>
+      <small class="text-muted">
+      {% for shared_by in shared_by_user%}
+          {{shared_by_user.user.first_name}} {{shared_by_user.user.last_name}},
+      {% endfor %}
+      </small>
+    </div>
   </a>
   {% endfor %}
 </div>
@@ -97,7 +104,14 @@
       <strong class="mb-1">Destination</strong>
       <small class="text-muted">{{ride.dest}}</small>
     </div>
-{#    <div class="col-10 mb-1 small"></div>#}
+    <div class="col-10 mb-1 small">
+        <strong class="mb-1">Shared By:</strong> <br>
+      <small class="text-muted">
+      {% for shared_by in shared_by_user%}
+          {{shared_by_user.user.first_name}} {{shared_by_user.user.last_name}},
+      {% endfor %}
+      </small>
+    </div>
   </a>
   {% endfor %}
 </div>
@@ -121,7 +135,14 @@
       <strong class="mb-1">Destination</strong>
       <small class="text-muted">{{ride.dest}}</small>
     </div>
-{#    <div class="col-10 mb-1 small"></div>#}
+    <div class="col-10 mb-1 small">
+        <strong class="mb-1">Shared By:</strong> <br>
+      <small class="text-muted">
+      {% for shared_by in shared_by_user%}
+          {{shared_by_user.user.first_name}} {{shared_by_user.user.last_name}},
+      {% endfor %}
+      </small>
+    </div>
   </a>
   {% endfor %}
 </div>
