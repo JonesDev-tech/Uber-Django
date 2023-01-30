@@ -1,4 +1,4 @@
-from .models import User
+from django.contrib.auth.models import User
 
 class CustomBackend(object):
     def authenticate(request, **credentials):
