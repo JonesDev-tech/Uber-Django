@@ -29,7 +29,7 @@ class Ride(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     # .add()
     # check if already in the ride
-    shared_by_user = models.ManyToManyField(Group, default=None)
+    shared_by_user = models.ManyToManyField(Group, null=True, blank=True)
     vehicle_info = VehicleInfo()
     vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     dest = models.TextField(max_length=100)
@@ -39,6 +39,8 @@ class Ride(models.Model):
     # status
     completed = models.BooleanField(default=False)
     confirmed = models.BooleanField(default=False)
+    # vehicle
+    # drive
     # vehicle
     
     def __str__(self):
