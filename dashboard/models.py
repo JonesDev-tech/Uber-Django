@@ -2,7 +2,25 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from .backend import VehicleInfo
+from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, related_name='profile', on_delete=models.CASCADE)
+    mobile = PhoneNumberField()
+    dob = models.DateTimeField()
+    gender = models.IntegerField(choices=[
+        (0, 'female'),
+        (1, 'male'),
+        (2, 'prefer not to tell')
+    ])
+
+    def __str__(self):
+        return self.user
+
+class Passenger(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    groupNum = models.IntegerField(blank=False, null=False)
 
 class Ride(models.Model):
     # search first if not find create a new one
@@ -10,7 +28,8 @@ class Ride(models.Model):
     # .add()
     # check if already in the ride
     shared_by = models.ManyToManyField(Passenger)
-    vehicleType = models.IntegerField()
+    vehicle_info = VehicleInfo()
+    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     dest = models.TextField(max_length=100)
     arrive_time = models.DateTimeField()
     if_share = models.BooleanField()
@@ -23,13 +42,11 @@ class Ride(models.Model):
     def __str__(self):
         return self.pk
 
-
-class Passenger(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    groupNum = models.IntegerField(blank=False, null=False)
-    
 class Vehicle(models.Model):
-
+    vehicle_info = VehicleInfo()
+    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vehicle', default=None)
+    plateNumber = models.CharField(max_length=20)
 
 
         
