@@ -31,7 +31,7 @@ def started_ride(request):
         ).order_by("arrive_time")
         context = {"open_rides": open_ride,
                    "confirmed_rides": confirmed_ride,
-                   "completed_rides": confirmed_ride,
+                   "completed_rides": completed_ride,
                    "user":curr_user
                    }
         for ride in open_ride:
