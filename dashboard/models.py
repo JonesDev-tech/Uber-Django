@@ -18,16 +18,16 @@ class Profile(models.Model):
     def __str__(self):
         return self.user
 
-class Passenger(models.Model):
+class Group(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     groupNum = models.IntegerField(blank=False, null=False)
 
 class Ride(models.Model):
     # search first if not find create a new one
-    owner = models.ForeignKey(Passenger, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     # .add()
     # check if already in the ride
-    shared_by_user = models.ManyToManyField(Passenger)
+    shared_by_user = models.ManyToManyField(Group)
     vehicle_info = VehicleInfo()
     vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     dest = models.TextField(max_length=100)
