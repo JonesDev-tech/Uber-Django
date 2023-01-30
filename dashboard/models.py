@@ -36,7 +36,7 @@ class Ride(models.Model):
     
     # status
     completed = models.BooleanField(default=False)
-    confirmed = models.BooleanField(default=True)
+    confirmed = models.BooleanField(default=False)
     # vehicle
     
     def __str__(self):
