@@ -8,11 +8,12 @@ from .forms import RegisterForm, ProfileForm
 # #import markdown
 # import re
 
-def dashboard(request):
+def started_ride(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
     else:
-        return render(request, 'dashboard/homepage.html', {})
+
+        return render(request, 'dashboard/started_ride.html', {})
 
 def register(request):
     if request.method == 'POST':
