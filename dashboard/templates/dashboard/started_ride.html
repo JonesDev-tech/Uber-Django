@@ -79,6 +79,9 @@
       {% for shared_by in ride.shared_by_user.all%}
           {{shared_by}},
       {% endfor %}
+      {% for shared_by in ride.shared_by_user.all%}
+          {{shared_by}},
+      {% endfor %}
       </small>
     </div>
   </a>
