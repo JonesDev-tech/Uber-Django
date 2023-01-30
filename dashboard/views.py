@@ -34,6 +34,9 @@ def started_ride(request):
                    "completed_rides": confirmed_ride,
                    "user":curr_user
                    }
+        for ride in open_ride:
+            for share in ride.shared_by_user.all():
+                print(share)
         return render(request, 'dashboard/started_ride.html', context)
 
 def register(request):
