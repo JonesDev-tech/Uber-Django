@@ -86,7 +86,7 @@
       {% for shared_by in ride.shared_by_user.all%}
           {% if shared_by.user.username != user.username  %}
             {{shared_by}},
-          {% endif %} 
+          {% endif %}
       {% endfor %}
       </small>
     </div>
