@@ -122,4 +122,4 @@ def ride_detail(request, pk):
         "driver_phone": driver_phone,
         "driver_Email": driver_email,
     }
-    return render(request, 'registration/register.html',context)
+    return render(request, 'dashboard/ride_detail.html',context)
