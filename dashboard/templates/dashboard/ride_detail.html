@@ -163,7 +163,7 @@
             {% if status == "Open" %}
                 {% if curr_user == owner %}
                 <button class="btn btn-primary me-md-2" type="button" >
-                <a href="{% url 'edit ride' pk=ride.pk %}">Edit</a>
+                <a href="{% url 'edit ride' pk=ride.pk %}"></a>Edit
                 </button>
                 <button class="btn btn-danger" type="button">Cancle</button>
                 {% else %}

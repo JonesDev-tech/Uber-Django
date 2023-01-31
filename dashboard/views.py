@@ -136,6 +136,6 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
 
     def get_object(self, *args, **kwargs):
         ride = self.model.objects.get(pk=self.kwargs['pk'])
-        if not ride.owner_user == self.request.user:
+        if not ride.owner == self.request.user:
             raise Http404
         return ride
