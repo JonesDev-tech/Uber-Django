@@ -107,7 +107,7 @@ def ride_detail(request, pk):
     owner = ride.shared_by_user.get(
         user=curr_user
     )
-    shared_by = ride.shared_by_user.filter.exclude(
+    shared_by = ride.shared_by_user.exclude(
         user=curr_user,
     )
     context = {
