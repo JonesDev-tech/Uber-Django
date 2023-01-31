@@ -22,7 +22,7 @@ class ProfileForm(forms.ModelForm):
     dob = forms.DateField(
         widget=forms.DateInput(
             attrs={
-                'placeholder':"YYYY-mm-dd",
+                'placeholder':"%d/%m/%Y %H:%M",
             }
         )
     )
@@ -44,7 +44,7 @@ class RideRequestForm(forms.ModelForm):
     arrive_time = forms.DateTimeField(
         label="Desired Arrival Time",
         input_formats=['%d/%m/%Y %H:%M'],
-        widget=DateTimePicker(
+        widget=forms.DateTimeField(
             attrs={
                 'placeholder': "dd/mm/yyyy hh:mm",
             }
