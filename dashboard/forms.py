@@ -34,7 +34,7 @@ class RideRequestForm(forms.ModelForm):
     dest = forms.CharField(
         label="Destination",
         widget=forms.Textarea(
-            attrs={'cols': '10', 'rows': '5',
+            attrs={'cols': '10', 'rows': '1',
                    'placeholder': 'Enter your address here.'}),
         min_length=0,
         max_length=100
