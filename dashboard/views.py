@@ -13,7 +13,7 @@ def require_ride(request):
 
 
     context = {}
-    return render(request, 'dashboard/started_ride.html', context)
+    return render(request, 'dashboard/require_ride.html', context)
 
 def started_ride(request):
     if not request.session.get('is_login', None):
