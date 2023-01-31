@@ -162,9 +162,9 @@
             <div class="d-grid gap-3 d-md-flex justify-content-md-end">
             {% if status == "Open" %}
                 {% if curr_user == owner %}
-                <button class="btn btn-primary me-md-2" type="button" >
-                <a href="{% url 'edit ride' pk=ride.pk %}"></a>Edit
-                </button>
+                <a class="btn btn-primary me-md-2" role="button" href="{% url 'edit ride' pk=ride.pk %}">
+                    Edit
+                </a>
                 <button class="btn btn-danger" type="button">Cancle</button>
                 {% else %}
                 <button class="btn btn-danger" type="button">Quit</button>
