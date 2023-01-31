@@ -117,7 +117,9 @@
         <strong class="mb-1">Shared By:</strong> <br>
       <small class="text-muted">
       {% for shared_by in ride.shared_by_user.all%}
-          {{shared_by}},
+          {% if shared_by.user.username != user.username  %}
+            {{shared_by}},
+          {% endif %}
       {% endfor %}
       </small>
     </div>
@@ -148,7 +150,9 @@
         <strong class="mb-1">Shared By:</strong> <br>
       <small class="text-muted">
       {% for shared_by in ride.shared_by_user.all%}
-          {{shared_by}},
+          {% if shared_by.user.username != user.username  %}
+            {{shared_by}},
+          {% endif %}
       {% endfor %}
       </small>
     </div>

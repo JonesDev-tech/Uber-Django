@@ -113,12 +113,13 @@ def ride_detail(request, pk):
         "arrive_time" : ride.arrive_time,
         "v_type": vehicle_info[ride.vehicleType],
         "shared_by": shared_by,
-        "owner" : curr_user,
+        "owner" : ride.owner,
         "status" : status,
         "driver" : driver,
         "plate" : plate,
         "driver_phone": driver_phone,
         "driver_Email": driver_email,
-        "gender": gender
+        "gender": gender,
+        "curr_user": curr_user
     }
     return render(request, 'dashboard/ride_detail.html',context)
