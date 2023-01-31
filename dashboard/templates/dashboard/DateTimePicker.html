@@ -1,14 +1,15 @@
+<div class="form-group">#}
+  <div class='input-group date' id='{{ widget.datetimepicker_id }}'>
+      <label for="arrive_time"></label>
+    <input type='text' class="form-control" />
+    <span class="input-group-addon">
+    <span class="glyphicon glyphicon-calendar"></span>
+    </span>
+  </div>
+    <script type="text/javascript">
+     $(function () {
+         $('#{{ widget.datetimepicker_id }}').datetimepicker();
+     });
 
-
-<div class="form-group">    <div class='input-group date' id='datetimepicker1'>
-   <input type='text' class="form-control" />
-   <span class="input-group-addon">
-   <span class="glyphicon glyphicon-calendar"></span>
-   </span>
+    </script>
 </div>
-
-<script type="text/javascript">
- $(function () {
-     $('#datetimepicker1').datetimepicker();
- });
-</script>
