@@ -80,9 +80,10 @@ def ride_cancel(request, pk):
     return
 
 def ride_detail(request, pk):
+    gender = ['female', 'male', 'NG']
+    vehicle_info = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Mini van']
     ride = get_object_or_404(Ride, pk=pk)
     curr_user = get_object_or_404(User, id=request.session['user_id'])
-    # vehicle_info = VehicleInfo()
     if curr_user != ride.owner:
         raise Http404
     # status
@@ -110,7 +111,7 @@ def ride_detail(request, pk):
     context = {
         "dest" : ride.dest,
         "arrive_time" : ride.arrive_time,
-        "v_type": ride.vehicleType,
+        "v_type": vehicle_info[ride.vehicleType],
         "shared_by": shared_by,
         "owner" : curr_user,
         "status" : status,
@@ -118,5 +119,6 @@ def ride_detail(request, pk):
         "plate" : plate,
         "driver_phone": driver_phone,
         "driver_Email": driver_email,
+        "gender": gender
     }
     return render(request, 'dashboard/ride_detail.html',context)
