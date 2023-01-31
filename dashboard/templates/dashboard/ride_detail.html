@@ -63,7 +63,7 @@
   </div>
     <div class="container py-4">
     <div class="row align-items-md-stretch">
-    <div class="col-lg-15">
+    <div class="col-lg-10">
             <div class="h-100 p-5 bg-light border rounded-3">
             <h3>Ride details</h3>
             <br>
@@ -85,12 +85,12 @@
               <small class="text-muted">{{ plate }}</small>
 
             </div>
-
+            <br>
             <div class="d-flex w-100 align-items-center justify-content-between">
               <strong class="mb-1">Driver Phone: </strong>
               <small class="text-muted">{{ driver_phone }}</small>
               <strong class="mb-1">Driver Email: </strong>
-              <small class="text-muted">{{ driver_email }}</small>
+              <small class="text-muted">{{ driver_Email }}</small>
 
             </div>
             <br>
@@ -123,9 +123,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            {% for user in shared_by %}
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              {% for user in shared_by %}
                 <div class="col">
                   <div class="card shadow-sm">
                     <div class="card-body">
@@ -148,8 +146,9 @@
                     </div>
                   </div>
                 </div>
-              </div>
             {% endfor %}
+          </div>
+
 
             <div class="d-grid gap-3 d-md-flex justify-content-md-end">
               <button class="btn btn-primary me-md-2" type="button">Edit</button>
