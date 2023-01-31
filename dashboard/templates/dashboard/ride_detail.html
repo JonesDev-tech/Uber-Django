@@ -114,7 +114,7 @@
                         <div class="d-flex justify-content-between align-items-center">
 
                             <strong class="mb-1">Gender:</strong>
-                            <small class="text-muted">{{ gender.owner.profile.gender }}</small>
+                            <small class="text-muted">{{ owner.profile.get_gender }}</small>
                             <strong class="mb-1">Group:</strong>
                             <small class="text-muted">2</small>
                           </div>
@@ -129,28 +129,28 @@
                     </div>
                   </div>
                 </div>
-              {% for user in shared_by %}
+              {% for group in shared_by %}
                 <div class="col">
                   <div class="card shadow-sm">
                     <div class="card-body">
                           <div class="d-flex justify-content-between align-items-center">
                             <strong class="mb-1">Name:</strong>
-                            <small class="text-muted">{{user.first_name}} {{user.last_name}}</small>
+                            <small class="text-muted">{{group.user.first_name}} {{group.user.last_name}}</small>
 
                           </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <strong class="mb-1">Gender:</strong>
-                            <small class="text-muted">{{ gender.user.profile.gender }}</small>
+                            <small class="text-muted">{{ group.user.profile.get_gender }}</small>
                             <strong class="mb-1">Group:</strong>
-                            <small class="text-muted">2</small>
+                            <small class="text-muted">{{ group.groupNum }}</small>
                           </div>
                           <div class="d-flex justify-content-between align-items-center">
                             <strong class="mb-1">Phone:</strong>
-                            <small class="text-muted">{{user.profile.mobile}}</small>
+                            <small class="text-muted">{{group.user.profile.mobile}}</small>
                           </div>
                           <div class="d-flex justify-content-between align-items-center">
                             <strong class="mb-1">Email:</strong>
-                            <small class="text-muted">{{user.email}}</small>
+                            <small class="text-muted">{{group.user.email}}</small>
                           </div>
                     </div>
                   </div>

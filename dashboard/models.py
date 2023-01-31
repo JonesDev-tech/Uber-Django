@@ -9,14 +9,21 @@ class Profile(models.Model):
     user = models.OneToOneField(User, null=True, related_name='profile', on_delete=models.CASCADE)
     mobile = PhoneNumberField()
     dob = models.DateTimeField()
-    gender = models.IntegerField(choices=[
+    gender_choices = [
         (0, 'female'),
         (1, 'male'),
         (2, 'prefer not to tell')
-    ])
+    ]
+    gender = models.IntegerField(choices=gender_choices)
 
     def __str__(self):
         return self.user.username
+
+    def get_gender(self):
+        if self.gender is None:
+            return "Unknown"
+        else:
+            return self.gender_choices[self.gender][1]
 
 class Group(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
