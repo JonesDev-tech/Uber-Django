@@ -32,6 +32,7 @@ class Ride(models.Model):
     # check if already in the ride
     shared_by_user = models.ManyToManyField(Group, blank=True, default=None)
     vehicle_info = VehicleInfo()
+
     vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     dest = models.TextField(max_length=100)
     arrive_time = models.DateTimeField()
