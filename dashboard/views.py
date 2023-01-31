@@ -121,7 +121,8 @@ def ride_detail(request, pk):
         "driver_phone": driver_phone,
         "driver_Email": driver_email,
         "gender": gender,
-        "curr_user": curr_user
+        "curr_user": curr_user,
+        "ride": ride
     }
     return render(request, 'dashboard/ride_detail.html',context)
 
@@ -133,7 +134,7 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
     success_url = "success/"
     success_message = "Changes successfully saved."
 
-    def get_object(self):
+    def get_object(self, *args, **kwargs):
         ride = self.model.objects.get(pk=self.kwargs['pk'])
         if not ride.owner_user == self.request.user:
             raise Http404
