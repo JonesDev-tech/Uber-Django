@@ -13,7 +13,7 @@ def require_ride(request):
         curr_user = get_object_or_404(User, id=request.session['user_id'])
         if form.is_valid():
             ride = form.save(commit=False)
-            ride.owner = request.user
+            ride.owner = curr_user
             try:
                 group = Group.objects.get(user=curr_user, groupNum=ride.passengerNum)
             except Group.DoesNotExist:
@@ -22,6 +22,8 @@ def require_ride(request):
             ride.save()
             messages.success(request, 'Request successfully.')
             return redirect("/require_ride")
+        else:
+            print("form not valid")
     else:
         form = RideRequestForm()
 
