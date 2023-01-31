@@ -51,6 +51,7 @@ class RideRequestForm(forms.ModelForm):
         )
     )
     passengerNum = forms.IntegerField(
+        label= "Passenger Number",
         widget=forms.NumberInput(
             attrs={'cols': '5', 'rows': '1',
                    'placeholder': 'Enter number here.'}),
