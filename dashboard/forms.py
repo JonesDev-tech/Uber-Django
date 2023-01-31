@@ -41,7 +41,7 @@ class RideRequestForm(forms.ModelForm):
         max_length=100,
     )
 
-    arrivalTime = forms.DateTimeField(
+    arrive_time = forms.DateTimeField(
         label="Desired Arrival Time",
         input_formats=['%d/%m/%Y %H:%M'],
         widget=DateTimePicker(
