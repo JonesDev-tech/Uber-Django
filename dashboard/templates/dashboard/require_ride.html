@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
 <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 
@@ -69,7 +70,7 @@
         <div class="h-100 p-5 bg-light border rounded-3">
           <h2>Require a ride !</h2>
           <form method="POST" class="form-group"> {% csrf_token %}
-              
+
               <div class="form-group">
               {{form.dest|as_crispy_field}}
               </div>
