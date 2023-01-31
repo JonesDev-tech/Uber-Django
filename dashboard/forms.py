@@ -40,6 +40,8 @@ class RideRequestForm(forms.ModelForm):
         max_length=100
     )
 
+    passengerNum = forms.IntegerField(max_value=10, min_value=1)
+
     class Meta:
         model = Ride
         fields = ['dest', 'arrive_time', 'passengerNum',
