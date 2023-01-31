@@ -6,6 +6,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('require_ride/', views.require_ride, name='require ride'),
     path('ride_detail/<int:pk>', views.ride_detail, name='ride detail'),
+    path('open_ride/<int:pk>/edit/', views.EditRide.as_view(), name='edit ride'),
     # path('register/', views.register, name='register'),
     # path('post/<int:pk>/', views.post_detail, name='post_detail'),
     # path('accounts/profile/', views.profile, name='profile'),

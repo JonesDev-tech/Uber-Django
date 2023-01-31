@@ -3,10 +3,11 @@ from .forms import RegisterForm, ProfileForm, RideRequestForm
 from .models import User, Profile, Ride, Group
 # from django.urls import reverse
 # from django.utils import timezone
+from django.views import generic
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.contrib import messages
-from .backend import VehicleInfo
+from django.contrib.messages.views import SuccessMessageMixin
 
 def require_ride(request):
     if request.method == "POST":
@@ -123,3 +124,17 @@ def ride_detail(request, pk):
         "curr_user": curr_user
     }
     return render(request, 'dashboard/ride_detail.html',context)
+
+
+class EditRide(SuccessMessageMixin, generic.UpdateView):
+    model = Ride
+    form_class = RideRequestForm
+    template_name = 'dashboard/edit_ride.html'
+    success_url = "success/"
+    success_message = "Changes successfully saved."
+
+    def get_object(self, *args, **kwargs):
+        ride = self.model.objects.get(pk=self.kwargs['pk'])
+        if not ride.owner_user == self.request.user:
+            raise Http404
+        return ride
