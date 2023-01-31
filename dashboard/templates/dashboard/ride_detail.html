@@ -1,0 +1,164 @@
+{% extends 'dashboard/homepage.html' %}
+{% load static %}
+{% block content %}
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+
+      <span class="fs-4">Uber</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/" class="nav-link text-white" aria-current="page">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+          Started Rides
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+          Shared Rides
+        </a>
+      </li>
+        <li>
+        <a href="/require_ride" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+          Require Ride
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+          Search Open Rides
+        </a>
+      </li>
+
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+          My tasks
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          My Car
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>{{user.username}}</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+<!--        <li><a class="dropdown-item" href="#">New project...</a></li>-->
+<!--        <li><a class="dropdown-item" href="#">Settings</a></li>-->
+<!--        <li><a class="dropdown-item" href="#">Profile</a></li>-->
+<!--        <li><hr class="dropdown-divider"></li>-->
+        <li><a class="dropdown-item" href="{% url 'logout' %}?next={% url 'login' %}">Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+
+    <div class="row align-items-lg-center">
+    <div class="col-lg-10">
+            <div class="h-100 p-5 bg-light border rounded-3">
+            <h3>Ride details</h3>
+            <br>
+            <div class="d-flex w-100 align-items-center justify-content-between">
+              <strong class="mb-1">Destination: </strong>
+              <small class="text-muted">{{dest}}</small>
+              <strong class="mb-1">Arrive time: </strong>
+              <small class="text-muted">{{arrive_time}}</small>
+              <strong class="mb-1">Status: </strong>
+              <small class="text-muted">{{status}}</small>
+            </div>
+            <br>
+            <div class="d-flex w-100 align-items-center justify-content-between">
+              <strong class="mb-1">Vehicle type: </strong>
+              <small class="text-muted">{{v_type}}</small>
+              <strong class="mb-1">Driver: </strong>
+              <small class="text-muted">{{driver}}</small>
+              <strong class="mb-1">Plate: </strong>
+              <small class="text-muted">{{ plate }}</small>
+
+            </div>
+
+            <div class="d-flex w-100 align-items-center justify-content-between">
+              <strong class="mb-1">Driver Phone: </strong>
+              <small class="text-muted">{{ driver_phone }}</small>
+              <strong class="mb-1">Driver Email: </strong>
+              <small class="text-muted">{{ driver_email }}</small>
+
+            </div>
+            <br>
+            <div class="d-flex justify-content-between align-items-center">
+              <strong class="mb-1">Shared by: </strong>
+            </div>
+
+
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                      (Owner)
+                          <div class="d-flex justify-content-between align-items-center">
+                            <strong class="mb-1">Name:</strong>
+                            <small class="text-muted">{{owner.first_name}} {{owner.last_name}}</small>
+                            <strong class="mb-1">Gender:</strong>
+                            <small class="text-muted">{{ owner.profile.gender }}</small>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <strong class="mb-1">Phone:</strong>
+                            <small class="text-muted">{{owner.profile.mobile}}</small>
+                            <strong class="mb-1">Group of:</strong>
+                            <small class="text-muted">2</small>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <strong class="mb-1">Email:</strong>
+                            <small class="text-muted">{{owner.email}}</small>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% for user in shared_by %}
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                  <div class="card shadow-sm">
+                    <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <strong class="mb-1">Name:</strong>
+                            <small class="text-muted">{{user.first_name}} {{user.last_name}}</small>
+                            <strong class="mb-1">Gender:</strong>
+                            <small class="text-muted">{{ user.profile.gender }}</small>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <strong class="mb-1">Phone:</strong>
+                            <small class="text-muted">{{user.profile.mobile}}</small>
+                            <strong class="mb-1">Group of:</strong>
+                            <small class="text-muted">2</small>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <strong class="mb-1">Email:</strong>
+                            <small class="text-muted">{{user.email}}</small>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+            <div class="d-grid gap-3 d-md-flex justify-content-md-end">
+              <button class="btn btn-primary me-md-2" type="button">Edit</button>
+              <button class="btn btn-danger" type="button">Quit</button>
+              <button class="btn btn-danger" type="button">Cancle</button>
+            </div>
+
+          </div>
+    </div>
+</div>
+
+{%  endblock %}

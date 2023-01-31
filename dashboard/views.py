@@ -4,8 +4,9 @@ from .models import User, Profile, Ride, Group
 # from django.urls import reverse
 # from django.utils import timezone
 from django.contrib.auth.models import User
-# from django.http import Http404
+from django.http import Http404
 from django.contrib import messages
+from .backend import VehicleInfo
 
 def require_ride(request):
     if request.method == "POST":
@@ -22,7 +23,7 @@ def require_ride(request):
             ride.save()
             ride.shared_by_user.add(group)
             messages.success(request, 'Request successfully.')
-            return redirect("/require_ride")
+            return redirect("/")
         else:
             print("form not valid:"+str(form.errors))
     else:
@@ -73,3 +74,52 @@ def register(request):
         profile_form = ProfileForm()
     return render(request, 'registration/register.html', context={'form': user_form,
                                                                   'profile_form': profile_form})
+def ride_edit(request, pk):
+    return
+def ride_cancel(request, pk):
+    return
+
+def ride_detail(request, pk):
+    ride = get_object_or_404(Ride, pk=pk)
+    curr_user = get_object_or_404(User, id=request.session['user_id'])
+    # vehicle_info = VehicleInfo()
+    if curr_user != ride.owner:
+        raise Http404
+    # status
+    if ride.completed:
+        status = "Completed"
+    elif ride.confirmed:
+        status = "Confirmed"
+    else:
+        status = "Open"
+    # driver
+    if ride.vehicle:
+        driver = ride.vehicle.owner.first_name + ride.vehicle.owner.last_name
+        plate = ride.vehicle.plateNumber
+        driver_phone = ride.vehicle.owner.profile.mobile
+        driver_email = ride.vehicle.owner.email
+    else:
+        driver = "Not assigned yet"
+        plate = "Unknown"
+        driver_phone = "Unknown"
+        driver_email = "Unknown"
+
+    owner = ride.shared_by_user.get(
+        user=curr_user
+    )
+    shared_by = ride.shared_by_user.filter.exclude(
+        user=curr_user,
+    )
+    context = {
+        "dest" : ride.dest,
+        "arrive_time" : ride.arrive_time,
+        "v_type": ride.vehicleType,
+        "shared_by": shared_by,
+        "owner" : owner,
+        "status" : status,
+        "driver" : driver,
+        "plate" : plate,
+        "driver_phone": driver_phone,
+        "driver_Email": driver_email,
+    }
+    return render(request, 'registration/register.html',context)

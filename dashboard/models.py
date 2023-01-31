@@ -24,6 +24,12 @@ class Group(models.Model):
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name +' '+ '(' + str(self.groupNum) + ')'
 
+class Vehicle(models.Model):
+    vehicle_info = VehicleInfo()
+    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vehicle', default=None)
+    plateNumber = models.CharField(max_length=20)
+
 class Ride(models.Model):
     # search first if not find create a new one
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
@@ -42,17 +48,13 @@ class Ride(models.Model):
     completed = models.BooleanField(default=False)
     confirmed = models.BooleanField(default=False)
     # vehicle
-    # drive
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, default=None, blank=True, null=True)
     # vehicle
     
     def __str__(self):
         return str(self.pk)
 
-class Vehicle(models.Model):
-    vehicle_info = VehicleInfo()
-    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vehicle', default=None)
-    plateNumber = models.CharField(max_length=20)
+
 
 
         
