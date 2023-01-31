@@ -133,7 +133,7 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
     success_url = "success/"
     success_message = "Changes successfully saved."
 
-    def get_object(self, *args, **kwargs):
+    def get_object(self):
         ride = self.model.objects.get(pk=self.kwargs['pk'])
         if not ride.owner_user == self.request.user:
             raise Http404
