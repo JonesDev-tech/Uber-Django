@@ -44,11 +44,11 @@ class RideRequestForm(forms.ModelForm):
     arrive_time = forms.DateTimeField(
         label="Desired Arrival Time",
         input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.DateTimeField(
-            attrs={
-                'placeholder': "dd/mm/yyyy hh:mm",
-            }
-        )
+        # widget=forms.DateTimeField(
+        #     attrs={
+        #         'placeholder': "dd/mm/yyyy hh:mm",
+        #     }
+        # )
     )
     passengerNum = forms.IntegerField(
         label= "Passenger Number",
