@@ -26,7 +26,7 @@ class Group(models.Model):
 
 class Ride(models.Model):
     # search first if not find create a new one
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     passengerNum = models.IntegerField(default=1)
     # .add()
     # check if already in the ride
