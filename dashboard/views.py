@@ -104,9 +104,6 @@ def ride_detail(request, pk):
         driver_phone = "Unknown"
         driver_email = "Unknown"
 
-    owner = ride.shared_by_user.get(
-        user=curr_user
-    )
     shared_by = ride.shared_by_user.exclude(
         user=curr_user,
     )
@@ -115,7 +112,7 @@ def ride_detail(request, pk):
         "arrive_time" : ride.arrive_time,
         "v_type": ride.vehicleType,
         "shared_by": shared_by,
-        "owner" : owner,
+        "owner" : curr_user,
         "status" : status,
         "driver" : driver,
         "plate" : plate,
