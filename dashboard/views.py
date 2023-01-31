@@ -23,7 +23,7 @@ def require_ride(request):
             messages.success(request, 'Request successfully.')
             return redirect("/require_ride")
         else:
-            print("form not valid:"+form.errors)
+            print("form not valid:"+str(form.errors))
     else:
         form = RideRequestForm()
 
