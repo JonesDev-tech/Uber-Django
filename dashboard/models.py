@@ -34,7 +34,7 @@ class Ride(models.Model):
     vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     dest = models.TextField(max_length=100)
     arrive_time = models.DateTimeField()
-    if_share = models.BooleanField()
+    if_share = models.BooleanField(default=False)
     
     # status
     completed = models.BooleanField(default=False)

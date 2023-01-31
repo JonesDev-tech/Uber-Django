@@ -9,6 +9,12 @@ from django.contrib.auth.models import User
 # #import markdown
 # import re
 
+def require_ride(request):
+
+
+    context = {}
+    return render(request, 'dashboard/started_ride.html', context)
+
 def started_ride(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
