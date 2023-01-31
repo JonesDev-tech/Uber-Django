@@ -18,6 +18,7 @@ def require_ride(request):
                 group = Group.objects.get(user=curr_user, groupNum=ride.passengerNum)
             except Group.DoesNotExist:
                 group = Group(user=curr_user, groupNum=ride.passengerNum)
+                group.save()
             ride.save()
             ride.shared_by_user.add(group)
             messages.success(request, 'Request successfully.')
