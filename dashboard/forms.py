@@ -1,6 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Profile
+from django.contrib.auth.models import User
+from .models import Profile, Group, Vehicle, Ride
+from django.core.exceptions import ValidationError
+
+# validation functions
+def validate_positive(value):
+    if value <= 0:
+        raise ValidationError("Should be positive!")
 
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=40)
@@ -23,6 +30,36 @@ class ProfileForm(forms.ModelForm):
         fields = ['mobile', 'dob', 'gender']
 
 
+class RideRequestForm(forms.ModelForm):
+    dest = forms.CharField(
+        label="Destination",
+        widget=forms.Textarea(
+            attrs={'cols': '10', 'rows': '5',
+                   'placeholder': 'Enter your address here.'}),
+        min_length=0,
+        max_length=100
+    )
+
+    class Meta:
+        model = Ride
+        fields = ['dest', 'arrive_time', 'passengerNum',
+                  'vehicleType', 'if_share']
+
+    # def clean(self, *args, **kwargs):
+    #     cleaned_data = self.cleaned_data
+    #     vehicleType = cleaned_data.get('vehicleType')
+    #     numPassengers = cleaned_data.get("numPassengers")
+    #     vtinfo = VehicleTypeInfo()
+    #     if numPassengers <= 0:
+    #         raise forms.ValidationError(
+    #             "The passenger num should be positive."
+    #         )
+    #     if (vtinfo.max_capacity[vehicleType] <= numPassengers):
+    #         raise forms.ValidationError(
+    #             "The passenger num is greater than the capacity of %s."
+    #             % (vtinfo.type_choices[vehicleType][1])
+    #         )
+    #     return cleaned_data
 # class UserCreationForm(forms.ModelForm):
 #     """
 #     A form that creates a user, with no privileges, from the given username and

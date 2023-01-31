@@ -27,6 +27,7 @@ class Group(models.Model):
 class Ride(models.Model):
     # search first if not find create a new one
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    passengerNum = models.IntegerField()
     # .add()
     # check if already in the ride
     shared_by_user = models.ManyToManyField(Group, blank=True, default=None)
@@ -34,7 +35,7 @@ class Ride(models.Model):
     vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     dest = models.TextField(max_length=100)
     arrive_time = models.DateTimeField()
-    if_share = models.BooleanField(default=False)
+    if_share = models.BooleanField(default=False, help_text="Muted by default")
     
     # status
     completed = models.BooleanField(default=False)

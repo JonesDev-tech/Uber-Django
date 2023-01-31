@@ -1,18 +1,31 @@
 from django.shortcuts import get_object_or_404, redirect, render, render
-from .forms import RegisterForm, ProfileForm
+from .forms import RegisterForm, ProfileForm, RideRequestForm
 from .models import User, Profile, Ride, Group
 # from django.urls import reverse
 # from django.utils import timezone
-# # from .models import Post, about
 from django.contrib.auth.models import User
 # from django.http import Http404
-# #import markdown
-# import re
+from django.contrib import messages
 
 def require_ride(request):
+    if request.method == "POST":
+        form = RideRequestForm(request.POST)
+        curr_user = get_object_or_404(User, id=request.session['user_id'])
+        if form.is_valid():
+            ride = form.save(commit=False)
+            ride.owner = request.user
+            try:
+                group = Group.objects.get(user=curr_user, groupNum=ride.passengerNum)
+            except Group.DoesNotExist:
+                group = Group(user=curr_user, groupNum=ride.passengerNum)
+            ride.shared_by_user.add(group)
+            ride.save()
+            messages.success(request, 'Request successfully.')
+            return redirect("/require_ride")
+    else:
+        form = RideRequestForm()
 
-
-    context = {}
+    context = {'form': form}
     return render(request, 'dashboard/require_ride.html', context)
 
 def started_ride(request):
