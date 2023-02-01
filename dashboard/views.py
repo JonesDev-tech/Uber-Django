@@ -75,10 +75,14 @@ def register(request):
         profile_form = ProfileForm()
     return render(request, 'registration/register.html', context={'form': user_form,
                                                                   'profile_form': profile_form})
-def ride_edit(request, pk):
-    return
+
 def ride_cancel(request, pk):
-    return
+    ride = Ride.objects.get_object_or_404(pk = pk)
+    if not ride.owner == request.user:
+        raise Http404
+    ride.delete()
+
+    return render(request, '/')
 
 def ride_detail(request, pk):
     gender = ['female', 'male', 'NG']
@@ -131,12 +135,13 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
     model = Ride
     form_class = RideRequestForm
     template_name = 'dashboard/edit_ride.html'
+    # redirect to this url after success
     success_url = "/"
     success_message = "Changes successfully saved."
 
     # Check if the user is qualified for edit
     def get_object(self, *args, **kwargs):
-        ride = self.model.objects.get(pk=self.kwargs['pk'])
+        ride = self.model.objects.get_object_or_404(pk=self.kwargs['pk'])
         if not ride.owner == self.request.user:
             raise Http404
         return ride

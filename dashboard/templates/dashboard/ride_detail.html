@@ -165,7 +165,7 @@
                 <a class="btn btn-primary me-md-2" role="button" href="{% url 'edit ride' pk=ride.pk %}">
                     Edit
                 </a>
-                <button class="btn btn-danger" type="button">Cancle</button>
+                <button class="btn btn-danger" type="button" href="{% url 'cancel ride' pk=ride.pk %}>Cancle</button>
                 {% else %}
                 <button class="btn btn-danger" type="button">Quit</button>
                 {% endif %}
