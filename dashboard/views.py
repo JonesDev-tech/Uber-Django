@@ -187,10 +187,10 @@ def search_ride(request):
         rides = [ride for ride in rides if \
                  number + ride.get_passenger_num() + 1 <= \
                  ride.get_capacity()]
-        message = "{number} orders found: &emsp; &emsp;".format(number = str(len(rides)))
+        message = "{number} orders found: ".format(number = str(len(rides)))
     else:
         rides = []
-        message = "Results will be displayed below. &emsp; &emsp;"
+        message = "Results will be displayed below. "
 
     context = {
         "rides" : rides,
