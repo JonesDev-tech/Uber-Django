@@ -82,7 +82,7 @@ def ride_cancel(request, pk):
         raise Http404
     ride.delete()
 
-    return render(request, '/')
+    return redirect('/')
 
 def ride_detail(request, pk):
     gender = ['female', 'male', 'NG']
