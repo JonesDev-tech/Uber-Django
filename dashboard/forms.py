@@ -47,6 +47,7 @@ class RideRequestForm(forms.ModelForm):
         widget=forms.DateTimeInput(
             attrs={
                 'placeholder': "dd/mm/yyyy hh:mm",
+                'type' : "datetime-local",
             }
         )
     )
