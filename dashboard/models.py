@@ -61,7 +61,17 @@ class Ride(models.Model):
     def __str__(self):
         return str(self.pk)
 
+    def get_passenger_num(self):
+        total = 0
+        for group in self.shared_by_user.all():
+            total+=group.groupNum
+        return total
 
+    def get_v_type(self):
+        return self.vehicle_info.type[self.vehicleType][1]
+
+    def get_capacity(self):
+        return self.vehicle_info.capacity[self.vehicleType]
 
 
         

@@ -2,16 +2,21 @@ from django.shortcuts import get_object_or_404, redirect, render, render
 from .forms import RegisterForm, ProfileForm, RideRequestForm
 from .models import User, Profile, Ride, Group
 # from django.urls import reverse
-# from django.utils import timezone
+from django.utils import timezone
+from datetime import datetime
 from django.views import generic
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from .backend import VehicleInfo
 #TODO: Success 页面, edit删除ride所有共享成员
 #TODO: 检查非法输入
 
 def require_ride(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+
     if request.method == "POST":
         form = RideRequestForm(request.POST)
         curr_user = get_object_or_404(User, id=request.session['user_id'])
@@ -79,6 +84,8 @@ def register(request):
                                                                   'profile_form': profile_form})
 
 def ride_cancel(request, pk):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
     ride = get_object_or_404(Ride, pk = pk)
     if not ride.owner == request.user:
         raise Http404
@@ -87,6 +94,8 @@ def ride_cancel(request, pk):
     return redirect('/')
 
 def ride_detail(request, pk):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
     gender = ['female', 'male', 'NG']
     vehicle_info = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Mini van']
     ride = get_object_or_404(Ride, pk=pk)
@@ -142,16 +151,49 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
 
     # Check if the user is qualified for edit
     def get_object(self, *args, **kwargs):
+        if not self.request.session.get('is_login', None):
+            return redirect('/login')
         ride = self.model.objects.get_object_or_404(pk=self.kwargs['pk'])
         if not ride.owner == self.request.user:
             raise Http404
         return ride
 
 def search_ride(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
     if request.method == 'POST':
         addr = request.POST.get('address')
         start = request.POST.get('start')
         end = request.POST.get('end')
         number = int(request.POST.get('PassengerNum'))
-    context = {}
+
+        #format time
+        start = datetime.strptime(start, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
+        end = datetime.strptime(end, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
+
+        rides = Ride.objects.filter(
+            completed=False,
+            confirmed=False,
+            if_share=True,
+            arrive_time__gte=start,
+            arrive_time__lte=end
+        ).exclude(owner=request.user).order_by("arrive_time")
+        addr = str(addr).lower().split()
+        groups = Group.objects.filter(user=request.user)
+        for group in groups:
+            rides = [ride for ride in rides if group not in ride.shared_by_user.all()]
+        for word in addr:
+            rides = [ride for ride in rides if word in str(ride.dest).lower()]
+        rides = [ride for ride in rides if \
+                 number + ride.get_passenger_num() + 1 <= \
+                 ride.get_capacity()]
+        message = "{number} orders found: ".format(number = str(len(rides)))
+    else:
+        rides = []
+        message = "Results will be displayed below."
+
+    context = {
+        "rides" : rides,
+        "msg" : message,
+    }
     return render(request, 'dashboard/search_rides.html', context=context)
