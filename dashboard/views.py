@@ -9,6 +9,7 @@ from django.http import Http404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 #TODO: Success 页面, edit删除ride所有共享成员
+#TODO: 检查非法输入
 
 def require_ride(request):
     if request.method == "POST":
@@ -147,4 +148,10 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
         return ride
 
 def search_ride(request):
-    return
+    if request.method == 'POST':
+        addr = request.POST.get('address')
+        start = request.POST.get('start')
+        end = request.POST.get('end')
+        number = int(request.POST.get('PassengerNum'))
+    context = {}
+    return render(request, 'dashboard/search_rides.html', context=context)

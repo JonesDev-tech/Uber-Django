@@ -1,0 +1,93 @@
+{% extends 'dashboard/homepage.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+
+      <span class="fs-4">Uber</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/" class="nav-link text-white" aria-current="page">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+          Started Rides
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+          Shared Rides
+        </a>
+      </li>
+        <li>
+        <a href="/require_ride" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+          Require Ride
+        </a>
+      </li>
+      <li>
+        <a href="/search_rides" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+          Search Open Rides
+        </a>
+      </li>
+
+      <li>
+        <a href="/profile" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          My Profile
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>{{user.username}}</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+<!--        <li><a class="dropdown-item" href="#">New project...</a></li>-->
+<!--        <li><a class="dropdown-item" href="#">Settings</a></li>-->
+<!--        <li><a class="dropdown-item" href="#">Profile</a></li>-->
+<!--        <li><hr class="dropdown-divider"></li>-->
+        <li><a class="dropdown-item" href="{% url 'logout' %}?next={% url 'login' %}">Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+
+<div class="container py-4">
+    <div class="row align-items-md-stretch">
+      <div class="col-md-15">
+        <div class="h-130 p-5 bg-light border rounded-3">
+          <h2>Search for open rides. </h2>
+          <form method="POST" class="form-group"> {% csrf_token %}
+              <div class="form-group row">
+                  <div class="col-xs-8">
+                    <label for="ex1">Address keywords: </label>
+                    <input name= "address" class="form-control" id="ex1" type="text" placeholder="eg: NC Trinity Commons" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+                  <div class="col-xs-2">
+                    <label for="ex2">Passengers: </label>
+                    <input name="PassengerNum" class="form-control" id="ex2" type="number">
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label for="time_window"> class="text-muted">Choose your searching window: </label>
+                    <span class="input-group-text">start</span>
+                  <input name="start" type="datetime-local" class="form-control" placeholder="" id="time_window">
+                  <span class="input-group-text">end</span>
+                  <input name="end" type="datetime-local" class="form-control" placeholder="">
+                </div>
+            <button class="btn btn-outline-primary" type="submit"> Search </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

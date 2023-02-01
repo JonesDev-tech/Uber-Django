@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile, Group, Vehicle, Ride
 from django.core.exceptions import ValidationError
-from  .backend import DateTimePicker
 
 # validation functions
 def validate_positive(value):
