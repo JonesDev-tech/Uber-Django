@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from .backend import VehicleInfo
+from django import forms
 #TODO: Success 页面, edit删除ride所有共享成员
 #TODO: 检查非法输入
 
@@ -165,8 +165,11 @@ def search_ride(request):
         addr = request.POST.get('address')
         start = request.POST.get('start')
         end = request.POST.get('end')
-        number = int(request.POST.get('PassengerNum'))
+        number = request.POST.get('PassengerNum')
+        if addr == '' or start == '' or end == '' or number == '':
+            raise forms.ValidationError("Block can not be blank")
 
+        number = int(number)
         #format time
         start = datetime.strptime(start, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
         end = datetime.strptime(end, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
