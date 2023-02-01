@@ -77,7 +77,7 @@ def register(request):
                                                                   'profile_form': profile_form})
 
 def ride_cancel(request, pk):
-    ride = Ride.objects.get_object_or_404(pk = pk)
+    ride = get_object_or_404(Ride, pk = pk)
     if not ride.owner == request.user:
         raise Http404
     ride.delete()
