@@ -63,6 +63,8 @@
       <div class="col-md-15">
         <div class="h-130 p-5 bg-light border rounded-3">
           <h2>Search for open rides: </h2>
+            <br>
+            <br>
           <form method="POST" class="row g-3"> {% csrf_token %}
 
               <div class="col-md-10">
@@ -73,15 +75,17 @@
                 <label for="ex2">Passengers: </label>
                 <input name="PassengerNum" class="form-control" id="ex2" type="number">
               </div>
-
+                <label for="time_window">Choose your searching window: </label>
                 <div class="input-group mb-3">
-                    <label for="time_window">Choose your searching window: </label>
                     <span class="input-group-text">start</span>
                   <input name="start" type="datetime-local" class="form-control" placeholder="" id="time_window">
                   <span class="input-group-text">end</span>
                   <input name="end" type="datetime-local" class="form-control" placeholder="">
                 </div>
-            <button class="btn btn-outline-primary" type="submit"> Search </button>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button class="btn btn-primary " type="submit"> Search </button>
+                </div>
+
           </form>
 
         </div>
