@@ -131,7 +131,7 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
     model = Ride
     form_class = RideRequestForm
     template_name = 'dashboard/edit_ride.html'
-    success_url = ""
+    success_url = "/"
     success_message = "Changes successfully saved."
 
     # Check if the user is qualified for edit
