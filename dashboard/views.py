@@ -131,9 +131,10 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
     model = Ride
     form_class = RideRequestForm
     template_name = 'dashboard/edit_ride.html'
-    success_url = "success/"
+    success_url = ""
     success_message = "Changes successfully saved."
 
+    # Check if the user is qualified for edit
     def get_object(self, *args, **kwargs):
         ride = self.model.objects.get(pk=self.kwargs['pk'])
         if not ride.owner == self.request.user:
