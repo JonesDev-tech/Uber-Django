@@ -195,7 +195,7 @@ def search_ride(request):
             message = "{number} orders found: ".format(number = str(len(rides)))
         else:
             rides = []
-            message = "Input not valid. "
+            message = str(form.errors)
     else:
         form = SearchRide(request.POST)
         rides = []
