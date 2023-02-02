@@ -32,7 +32,12 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['mobile', 'dob', 'gender']
 
-# PersonalInfoForm()
+class PersonalInfoForm(UserCreationForm):
+    first_name = forms.CharField(max_length=40)
+    last_name = forms.CharField(max_length=40)
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ["username","first_name", "last_name", "email"]
 
 # PasswordForm()
 

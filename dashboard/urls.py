@@ -24,8 +24,9 @@ urlpatterns = [
     path('profile/edit_personal_info', views.edit_profile, name='profile_edit_personal'),
     path('profile/change_credential', views.change_password, name='profile_edit_password'),
 
+
     #vehicle registrate
-    path('vehicle_reg/', views.test_url, name='vehicle registrate'),
+    path('vehicle_reg/', views.vehicle_registrate, name='vehicle registrate'),
     #switch to driver portal redirect to vehicle regist or tasks
     path('driver/', views.test_url, name='switch to driver'),
     path('tasks/', views.test_url, name='tasks'),
