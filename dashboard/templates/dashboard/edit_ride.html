@@ -55,10 +55,6 @@
         <strong>{{user.username}}</strong>
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-<!--        <li><a class="dropdown-item" href="#">New project...</a></li>-->
-<!--        <li><a class="dropdown-item" href="#">Settings</a></li>-->
-<!--        <li><a class="dropdown-item" href="#">Profile</a></li>-->
-<!--        <li><hr class="dropdown-divider"></li>-->
         <li><a class="dropdown-item" href="{% url 'logout' %}?next={% url 'login' %}">Sign out</a></li>
       </ul>
     </div>
@@ -71,33 +67,6 @@
           <h2>Edit your ride: </h2>
           <form method="POST" class="form-group"> {% csrf_token %}
                 {{form|crispy}}
-{#              <div class="form-group">#}
-{#              {{form.dest|as_crispy_field}}#}
-{#              </div>#}
-{#              <div class="form-group">#}
-{#                  <div class='input-group date' id='datetimepicker1'>#}
-{#                      <label for="arrive_time"></label>#}
-{#               <input type='text' class="form-control" />#}
-{#               <span class="input-group-addon">#}
-{#               <span class="glyphicon glyphicon-calendar"></span>#}
-{#               </span>#}
-{#            </div>#}
-{#              <script type="text/javascript">#}
-{#                 $(function () {#}
-{#                     $('#datetimepicker1').datetimepicker();#}
-{#                 });#}
-{##}
-{#              </script>#}
-{#              </div>#}
-{#              <div class="form-group">#}
-{#              {{form.numPassengers|as_crispy_field}}#}
-{#              </div>#}
-{#            <div class="form-group">#}
-{#            {{form.vehicleType|as_crispy_field}}#}
-{#            </div>#}
-{#              <div class="form-grou"p>#}
-{#              {{form.if_share|as_crispy_field}}#}
-{#              </div>#}
             <button class="btn btn-outline-primary" type="submit"> Save </button>
           </form>
 
