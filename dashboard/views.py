@@ -311,6 +311,9 @@ def quit_ride(request, pk):
     return redirect('/shared')
 
 def profile_page(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    info = get_object_or_404(Profile, user = request.user)
     return
 
 def edit_profile(request):
@@ -320,5 +323,8 @@ def change_password(request):
     return
 
 def test_url(request):
-    print(request.user.vehicle)
+    # try:
+    #     obj = MyModel.objects.get(pk=1)
+    # except MyModel.DoesNotExist:
+    # print(request.user.vehicle)
     return

@@ -8,7 +8,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, related_name='profile', on_delete=models.CASCADE)
     mobile = PhoneNumberField()
-    dob = models.DateTimeField()
+    dob = models.DateField()
     gender_choices = [
         (0, 'female'),
         (1, 'male'),

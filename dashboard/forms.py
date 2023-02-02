@@ -22,7 +22,7 @@ class ProfileForm(forms.ModelForm):
     dob = forms.DateField(
         widget=forms.DateInput(
             attrs={
-                'placeholder':"%d/%m/%Y %H:%M",
+                'placeholder':"%d/%m/%Y",
                 'type': "datetime-local",
                 'class': "form-control"
             }
