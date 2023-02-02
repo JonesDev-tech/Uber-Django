@@ -324,11 +324,16 @@ def profile_page(request):
 
 def edit_profile(request):
     if request.method == 'POST':
-        user_form = PersonalInfoForm(request.POST, instance=request.user)
+        user_form = PersonalInfoForm(request.POST)
         profile = get_object_or_404(Profile, user=request.user)
         profile_form = ProfileForm(request.POST, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
+            curr_user = request.user
+            curr_user.username = user_form.username
+            curr_user.last_name = user_form.last_name
+            curr_user.first_name = user_form.first_name
+            curr_user.email = user_form.email
+            curr_user.save()
             profile_form.save()
             return redirect('profile/')
     else:
