@@ -105,7 +105,7 @@ def ride_detail(request, pk):
         find = False
         groups = Group.objects.filter(user=request.user)
         for group in groups:
-            if group in ride.shared_by_user:
+            if group in ride.shared_by_user.all():
                 find = True
         if not find:
             raise Http404
