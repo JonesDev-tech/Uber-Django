@@ -102,7 +102,13 @@ def ride_detail(request, pk):
     ride = get_object_or_404(Ride, pk=pk)
     curr_user = get_object_or_404(User, id=request.session['user_id'])
     if curr_user != ride.owner:
-        raise Http404
+        find = False
+        groups = Group.objects.filter(user=request.user)
+        for group in groups:
+            if group in ride.shared_by_user:
+                find = True
+        if not find:
+            raise Http404
     # status
     if ride.completed:
         status = "Completed"
