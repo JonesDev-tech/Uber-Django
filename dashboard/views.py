@@ -248,7 +248,7 @@ def shared_rides(request):
 
         open_ride = []
         for group in groups:
-            open_ride.append([ride for ride in open_ride_ if group in ride.shared_by_user.all()])
+            open_ride += [ride for ride in open_ride_ if group in ride.shared_by_user.all()]
         open_ride.sort(key=lambda x: x.arrive_time)
 
         confirmed_ride_ = Ride.objects.filter(
@@ -258,7 +258,7 @@ def shared_rides(request):
 
         confirmed_ride = []
         for group in groups:
-            confirmed_ride.append([ride for ride in confirmed_ride_ if group in ride.shared_by_user.all()])
+            confirmed_ride += [ride for ride in confirmed_ride_ if group in ride.shared_by_user.all()]
         confirmed_ride.sort(key=lambda x: x.arrive_time)
 
         completed_ride_ = Ride.objects.filter(
@@ -268,7 +268,7 @@ def shared_rides(request):
 
         completed_ride = []
         for group in groups:
-            completed_ride.append([ride for ride in completed_ride_ if group in ride.shared_by_user.all()])
+            completed_ride += [ride for ride in completed_ride_ if group in ride.shared_by_user.all()]
         completed_ride.sort(key=lambda x: x.arrive_time)
 
         context = {"open_rides": open_ride,
