@@ -15,7 +15,7 @@ class RegisterForm(UserCreationForm):
     last_name = forms.CharField(max_length=40)
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ["username","first_name", "last_name", "email", "password1", "password2"]
+        fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
 
 # Override clean() function in forms, to verify if the input is legal
 class ProfileForm(forms.ModelForm):
@@ -37,7 +37,7 @@ class PersonalInfoForm(UserCreationForm):
     last_name = forms.CharField(max_length=40)
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ["username","first_name", "last_name", "email"]
+        fields = ["username", "first_name", "last_name", "email"]
 
 # PasswordForm()
 

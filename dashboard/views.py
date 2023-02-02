@@ -334,7 +334,7 @@ def edit_profile(request):
     else:
         user_form = PersonalInfoForm()
         profile_form = ProfileForm()
-    return render(request, 'dashboard/edit_profile.html', context={'form': user_form,
+    return render(request, 'dashboard/edit_profile.html', context={'user_form': user_form,
                                                                   'profile_form': profile_form})
 
 
