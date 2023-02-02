@@ -10,7 +10,9 @@ urlpatterns = [
     path('ride_detail/<int:pk>/cancel/', views.ride_cancel, name='cancel ride'),
 
     path('search_rides/', views.search_ride, name='search rides'),
-    path('join_ride/<int:pk>', views.search_ride, name='join ride'),
+    path('join_ride/<int:pk>', views.join_ride, name='join ride'),
+    path('join_ride/success', views.join_success, name='join success'),
+    path('join_ride/failed', views.join_fail, name='join fail'),
     path('quit_ride/<int:pk>', views.search_ride, name='quit ride'),
 
     path('profile/', views.ride_cancel, name='profile'),

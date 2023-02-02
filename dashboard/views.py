@@ -207,3 +207,27 @@ def search_ride(request):
         "form" : form
     }
     return render(request, 'dashboard/search_rides.html', context=context)
+
+def join_ride(request, pk):
+    if request.method == 'POST':
+        ride = get_object_or_404(Ride, pk=pk)
+        num_passengers = int(request.POST.get('number'))
+        if num_passengers + ride.get_passenger_num() + 1 <= ride.get_capacity():
+            try:
+                group = Group.objects.get(user=request.user, groupNum=num_passengers)
+            except Group.DoesNotExist:
+                group = Group(user=request.user, groupNum=num_passengers)
+                group.save()
+            ride.shared_by_user.add(group)
+            messages.success(request, 'Request successfully.')
+            return redirect("/join_ride/success")
+        else:
+            return redirect("/join_ride/failed")
+
+    return render(request, 'dashboard/join_ride.html')
+
+def join_success(request):
+    return render(request, 'dashboard/join_success.html')
+
+def join_fail(request):
+    return render(request, 'dashboard/join_failed.html')
