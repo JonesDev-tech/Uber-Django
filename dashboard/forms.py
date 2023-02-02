@@ -82,7 +82,7 @@ class RideRequestForm(forms.ModelForm):
 class SearchRide(forms.Form):
     address = forms.CharField(
         max_length=100,
-        widget=forms.Textarea(
+        widget=forms.CharField(
             attrs={
                 'name' : "address",
                 'class' : "form-control",
