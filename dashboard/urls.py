@@ -19,10 +19,10 @@ urlpatterns = [
     path('join_ride/failed', views.join_fail, name='join fail'),
 
 
-    path('profile/', views.ride_cancel, name='profile'),
-    path('profile/edit_personal_info', views.ride_cancel, name='profile_edit_personal'),
-    path('profile/change_credential', views.ride_cancel, name='profile_edit_password'),
-    # path('register/', views.register, name='register'),
+    path('profile/', views.profile_page, name='profile'),
+    path('profile/edit_personal_info', views.edit_profile, name='profile_edit_personal'),
+    path('profile/change_credential', views.change_password, name='profile_edit_password'),
+    path('test/', views.test_url, name='test'),
     # path('post/<int:pk>/', views.post_detail, name='post_detail'),
     # path('accounts/profile/', views.profile, name='profile'),
     # path('post/new/', views.post_new, name='post_new'),

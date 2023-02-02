@@ -82,7 +82,7 @@
               <strong class="mb-1">Vehicle type: </strong>
               <small class="text-muted">{{v_type}}</small>
               <strong class="mb-1">Driver: </strong>
-              <small class="text-muted">{{driver_name}}</small>
+              <small class="text-muted">{{driver}}</small>
               <strong class="mb-1">Plate: </strong>
               <small class="text-muted">{{ plate }}</small>
 
@@ -100,78 +100,13 @@
               <strong class="mb-1">Shared by: </strong>
             </div>
 
-
-              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col">
-                  <div class="card shadow-sm">
-                    <div class="card-body">
-                      (Owner)
-                          <div class="d-flex justify-content-between align-items-center">
-                            <strong class="mb-1">Name:</strong>
-                            <small class="text-muted">{{owner.first_name}} {{owner.last_name}}</small>
-
-                          </div>
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <strong class="mb-1">Gender:</strong>
-                            <small class="text-muted">{{ owner.profile.get_gender }}</small>
-                            <strong class="mb-1">Group:</strong>
-                            <small class="text-muted">2</small>
-                          </div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <strong class="mb-1">Phone:</strong>
-                            <small class="text-muted">{{owner.profile.mobile}}</small>
-                          </div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <strong class="mb-1">Email:</strong>
-                            <small class="text-muted">{{owner.email}}</small>
-                          </div>
-                    </div>
-                  </div>
-                </div>
-              {% for group in shared_by %}
-                <div class="col">
-                  <div class="card shadow-sm">
-                    <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-center">
-                            <strong class="mb-1">Name:</strong>
-                            <small class="text-muted">{{group.user.first_name}} {{group.user.last_name}}</small>
-
-                          </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <strong class="mb-1">Gender:</strong>
-                            <small class="text-muted">{{ group.user.profile.get_gender }}</small>
-                            <strong class="mb-1">Group:</strong>
-                            <small class="text-muted">{{ group.groupNum }}</small>
-                          </div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <strong class="mb-1">Phone:</strong>
-                            <small class="text-muted">{{group.user.profile.mobile}}</small>
-                          </div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <strong class="mb-1">Email:</strong>
-                            <small class="text-muted">{{group.user.email}}</small>
-                          </div>
-                    </div>
-                  </div>
-                </div>
-            {% endfor %}
-          </div>
-
-
             <div class="d-grid gap-3 d-md-flex justify-content-md-end">
-            {% if status == "Open" %}
-                {% if curr_user == owner %}
-                <a class="btn btn-primary me-md-2" role="button" href="{% url 'edit ride' pk=ride.pk %}">
-                    Edit
-                </a>
-                <a class="btn btn-danger" role="button" href="{% url 'cancel ride' pk=ride.pk %}"> Cancel
-                </a>
-                {% elif curr_user == driver %}
-                {% else %}
-                <a class="btn btn-danger" role="button" href="{% url 'quit ride' pk=ride.pk %}"> Quit </a>
-                {% endif %}
-            {% endif %}
+
+            <a class="btn btn-primary me-md-2" role="button" href="{% url 'edit ride' pk=ride.pk %}">
+                Edit Personal Information
+            </a>
+            <a class="btn btn-danger" role="button" href="{% url 'cancel ride' pk=ride.pk %}"> Change Password
+            </a>
 
             </div>
 

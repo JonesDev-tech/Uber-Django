@@ -23,6 +23,8 @@ class ProfileForm(forms.ModelForm):
         widget=forms.DateInput(
             attrs={
                 'placeholder':"%d/%m/%Y %H:%M",
+                'type': "datetime-local",
+                'class': "form-control"
             }
         )
     )
@@ -30,6 +32,11 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['mobile', 'dob', 'gender']
 
+# PersonalInfoForm()
+
+# PasswordForm()
+
+# VehicleForm()
 
 class RideRequestForm(forms.ModelForm):
     dest = forms.CharField(
@@ -80,6 +87,7 @@ class RideRequestForm(forms.ModelForm):
     #             % (vtinfo.type_choices[vehicleType][1])
     #         )
     #     return cleaned_data
+
 class SearchRide(forms.Form):
     address = forms.CharField(
         max_length=100,

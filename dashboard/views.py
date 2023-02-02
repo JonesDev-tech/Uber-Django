@@ -118,15 +118,17 @@ def ride_detail(request, pk):
         status = "Open"
     # driver
     if ride.vehicle:
-        driver = ride.vehicle.owner.first_name + ride.vehicle.owner.last_name
+        driver_name = ride.vehicle.owner.first_name + ride.vehicle.owner.last_name
         plate = ride.vehicle.plateNumber
         driver_phone = ride.vehicle.owner.profile.mobile
         driver_email = ride.vehicle.owner.email
+        driver = ride.vehicle.owner
     else:
-        driver = "Not assigned yet"
+        driver_name = "Not assigned yet"
         plate = "Unknown"
         driver_phone = "Unknown"
         driver_email = "Unknown"
+        driver = None
 
     shared_by = ride.shared_by_user.exclude(
         user=curr_user,
@@ -138,13 +140,14 @@ def ride_detail(request, pk):
         "shared_by": shared_by,
         "owner" : ride.owner,
         "status" : status,
-        "driver" : driver,
+        "driver_name" : driver_name,
         "plate" : plate,
         "driver_phone": driver_phone,
         "driver_Email": driver_email,
         "gender": gender,
         "curr_user": curr_user,
-        "ride": ride
+        "ride": ride,
+        "driver" : driver
     }
     return render(request, 'dashboard/ride_detail.html',context)
 
@@ -306,3 +309,16 @@ def quit_ride(request, pk):
             ride.shared_by_user.remove(group)
     ride.save()
     return redirect('/shared')
+
+def profile_page(request):
+    return
+
+def edit_profile(request):
+    return
+
+def change_password(request):
+    return
+
+def test_url(request):
+    print(request.user.vehicle)
+    return
