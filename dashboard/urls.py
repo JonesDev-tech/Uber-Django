@@ -3,17 +3,21 @@ from . import views
 
 urlpatterns = [
     path('', views.started_ride, name='started_ride'),
+    path('shared/', views.shared_rides, name='shared rides'),
+
     path('register/', views.register, name='register'),
     path('require_ride/', views.require_ride, name='require ride'),
+
     path('ride_detail/<int:pk>', views.ride_detail, name='ride detail'),
     path('ride_detail/<int:pk>/edit/', views.EditRide.as_view(), name='edit ride'),
     path('ride_detail/<int:pk>/cancel/', views.ride_cancel, name='cancel ride'),
+    path('quit_ride/<int:pk>', views.quit_ride, name='quit ride'),
 
     path('search_rides/', views.search_ride, name='search rides'),
     path('join_ride/<int:pk>', views.join_ride, name='join ride'),
     path('join_ride/success', views.join_success, name='join success'),
     path('join_ride/failed', views.join_fail, name='join fail'),
-    path('quit_ride/<int:pk>', views.search_ride, name='quit ride'),
+
 
     path('profile/', views.ride_cancel, name='profile'),
     path('profile/edit_personal_info', views.ride_cancel, name='profile_edit_personal'),

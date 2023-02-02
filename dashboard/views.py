@@ -10,7 +10,7 @@ from django.http import Http404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django import forms
-#TODO: Success 页面, edit删除ride所有共享成员
+#TODO: Success 页面, edit删除ride所有共享成员, 邮件提醒
 #TODO: 检查非法输入
 
 def require_ride(request):
@@ -230,4 +230,45 @@ def join_success(request):
     return render(request, 'dashboard/join_success.html')
 
 def join_fail(request):
+    return render(request, 'dashboard/join_failed.html')
+
+def shared_rides(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    else:
+        curr_user = get_object_or_404(User, id = request.session['user_id'])
+        groups = Group.objects.filter(user=request.user)
+
+        open_ride = Ride.objects.filter(
+            confirmed=False,
+            completed=False,
+        ).exclude(owner=request.user).order_by("arrive_time")
+
+        for group in groups:
+            open_ride = [ride for ride in open_ride if group in ride.shared_by_user.all()]
+
+        confirmed_ride = Ride.objects.filter(
+            confirmed=True,
+            completed=False,
+        ).exclude(owner=request.user).order_by("arrive_time")
+
+        for group in groups:
+            confirmed_ride = [ride for ride in confirmed_ride if group in ride.shared_by_user.all()]
+
+        completed_ride = Ride.objects.filter(
+            confirmed=True,
+            completed=True,
+        ).exclude(owner=request.user).order_by("arrive_time")
+
+        for group in groups:
+            completed_ride = [ride for ride in completed_ride if group in ride.shared_by_user.all()]
+
+        context = {"open_rides": open_ride,
+                   "confirmed_rides": confirmed_ride,
+                   "completed_rides": completed_ride,
+                   "user":curr_user
+                   }
+    return render(request, 'dashboard/shared_rides.html', context)
+
+def quit_ride(request):
     return render(request, 'dashboard/join_failed.html')

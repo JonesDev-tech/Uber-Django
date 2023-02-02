@@ -9,13 +9,13 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="/" class="nav-link active" aria-current="page">
+        <a href="/" class="nav-link text-white" aria-current="page">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
           Started Rides
         </a>
       </li>
       <li>
-        <a href="/shared" class="nav-link text-white">
+        <a href="/shared" class="nav-link active">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Shared Rides
         </a>
@@ -59,8 +59,7 @@
 <div class="b-example-divider b-example-vr"></div>
 
 <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 400px;">
-<a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-
+<a href="#" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
   <span class="fs-5 fw-semibold">Open Rides</span>
 </a>
 <div class="list-group list-group-flush border-bottom scrollarea">
@@ -78,9 +77,7 @@
         <strong class="mb-1">Shared By:</strong> <br>
       <small class="text-muted">
       {% for shared_by in ride.shared_by_user.all%}
-          {% if shared_by.user.username != user.username  %}
             {{shared_by}},
-          {% endif %}
       {% endfor %}
       </small>
     </div>
