@@ -62,7 +62,7 @@ class RideRequestForm(forms.ModelForm):
         model = Ride
         fields = ['dest', 'arrive_time', 'passengerNum',
                   'vehicleType', 'if_share']
-
+    # def clean_<fieldname>()
     # def clean(self, *args, **kwargs):
     #     cleaned_data = self.cleaned_data
     #     vehicleType = cleaned_data.get('vehicleType')
@@ -78,3 +78,35 @@ class RideRequestForm(forms.ModelForm):
     #             % (vtinfo.type_choices[vehicleType][1])
     #         )
     #     return cleaned_data
+class SearchRide(forms.ModelForm):
+    dest = forms.CharField(
+        label="Destination",
+        widget=forms.Textarea(
+            attrs={'cols': '10', 'rows': '1',
+                   'placeholder': 'Enter your address here.'}),
+        min_length=0,
+        max_length=100,
+    )
+
+    arrive_time = forms.DateTimeField(
+        label="Desired Arrival Time",
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(
+            attrs={
+                'placeholder': "dd/mm/yyyy hh:mm",
+                'type' : "datetime-local",
+            }
+        )
+    )
+    passengerNum = forms.IntegerField(
+        label= "Passenger Number",
+        widget=forms.NumberInput(
+            attrs={'cols': '5', 'rows': '1',
+                   'placeholder': 'Enter number here.'}),
+        max_value=10, min_value=1
+    )
+
+    class Meta:
+        model = Ride
+        fields = ['dest', 'arrive_time', 'passengerNum',
+                  'vehicleType', 'if_share']

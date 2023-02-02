@@ -153,7 +153,7 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
     def get_object(self, *args, **kwargs):
         if not self.request.session.get('is_login', None):
             return redirect('/login')
-        ride = self.model.objects.get_object_or_404(pk=self.kwargs['pk'])
+        ride = get_object_or_404(Ride, pk=self.kwargs['pk'])
         if not ride.owner == self.request.user:
             raise Http404
         return ride
