@@ -67,28 +67,26 @@
         <div class="col-1"></div>
     <div class="col-9">
             <div class="h-100 p-5 bg-light border rounded-3">
-            <h3>Welcome {{ user.username }}! </h3>
+            <h3>Welcome to Uber, {{ user.username }} ! </h3>
             <br>
             <div class="d-flex w-100 align-items-center justify-content-between">
-              <strong class="mb-1">Name: </strong>
-              <small class="text-muted">{{user.first_name}} {{ user.last_name }}</small>
+              <strong class="fs-4">Name: </strong>
+              <p class="text-muted fs-4">{{user.first_name}} {{ user.last_name }}</p>
 
-              <strong class="mb-1">Gender: </strong>
-              <small class="text-muted">{{gender}}</small>
+              <strong class="fs-4">Gender: </strong>
+              <p class="text-muted fs-4">{{gender}}</p>
 
-              <strong class="mb-1">DOB: </strong>
-              <small class="text-muted">{{info.dob}}</small>
+              <strong class="fs-4">DOB: </strong>
+              <p class="text-muted">{{info.dob}}</p>
             </div>
             <br>
 
             <div class="d-flex w-100 align-items-center justify-content-between">
-              <strong class="mb-1">Email: </strong>
-              <small class="text-muted">{{user.email}}</small>
+              <strong class="fs-4">Email: </strong>
+              <p class="text-muted fs-4">{{user.email}}</p>
 
-              <strong class="mb-1">Mobile: </strong>
-              <small class="text-muted">{{info.mobile}}</small>
-              <strong class="mb-1">Plate: </strong>
-              <small class="text-muted">{{ plate }}</small>
+              <strong class="fs-4">Mobile: </strong>
+              <p class="text-muted fs-4">{{info.mobile}}</p>
 
             </div>
             <br>
