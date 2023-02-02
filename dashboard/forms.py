@@ -123,7 +123,7 @@ class SearchRide(forms.Form):
         if cleaned_data.get("start"):
             start = cleaned_data.get("start").astimezone(timezone.utc)
             if start < datetime.now().astimezone(timezone.utc):
-                raise forms.ValidationError("Search ride in future!")
+                raise forms.ValidationError("start time or end time should be future times.")
         return  cleaned_data.get("start")
 
     def clean_end(self):
@@ -132,5 +132,5 @@ class SearchRide(forms.Form):
             start = cleaned_data.get("start").astimezone(timezone.utc)
             end = cleaned_data.get("end").astimezone(timezone.utc)
             if end < start:
-                raise forms.ValidationError("End time must later than start time")
+                raise forms.ValidationError("end time must be later than start time.")
         return cleaned_data.get("end")

@@ -169,7 +169,7 @@ def search_ride(request):
             addr = cleaned_data.get('address')
             start = cleaned_data.get('start')
             end = cleaned_data.get('end')
-            number = cleaned_data.get('PassengerNum')
+            number = cleaned_data.get('passengerNum')
 
             # number = int(number)
             #format time
@@ -195,7 +195,7 @@ def search_ride(request):
             message = "{number} orders found: ".format(number = str(len(rides)))
         else:
             rides = []
-            message = str(list(form.errors.values())[0])
+            message = "Input invalid" + str(list(form.errors.values())[0])
     else:
         form = SearchRide(request.POST)
         rides = []
