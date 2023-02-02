@@ -329,7 +329,6 @@ def edit_profile(request):
         profile_form = ProfileForm(request.POST, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             curr_user = request.user
-            curr_user.username = user_form.username
             curr_user.last_name = user_form.last_name
             curr_user.first_name = user_form.first_name
             curr_user.email = user_form.email
