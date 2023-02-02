@@ -67,8 +67,9 @@
           <form method="POST" class="row g-2"> {% csrf_token %}
 
               <div class="col-md-10">
-                <label for="{{ form.address.id_for_label }} ">Address keywords: {{ form.address.errors }}</label>
+                <label for="{{ form.address.id_for_label }} ">Address keywords: </label>
                   {{ form.address }}
+                  {{ form.address.errors }}
 {#                  <input name= "address" class="form-control" id="ex1" type="text" placeholder="eg: NC Trinity Commons" aria-label="Username" aria-describedby="basic-addon1">#}
               </div>
 
@@ -79,16 +80,15 @@
 {#                  <input name="PassengerNum" class="form-control" id="ex2" type="number">#}
               </div>
 
-                <label for="{{ form.start.id_for_label }}">Choose your searching window: {{ form.start.errors }}</label>
-              <label for="{{ form.end.id_for_label }}">{{ form.end.errors }}</label>
+                <label for="{{ form.start.id_for_label }}">Choose your searching window: </label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">start</span>
-
                     {{ form.start }}
+                    {{ form.end.errors }}
 {#                  <input name="start" type="datetime-local" class="form-control" placeholder="" id="time_window">#}
                   <span class="input-group-text">end</span>
-
                     {{ form.end }}
+                    {{ form.end.errors }}
 {#                  <input name="end" type="datetime-local" class="form-control" placeholder="">#}
                 </div>
 
