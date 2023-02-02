@@ -100,20 +100,20 @@
             <br>
             <div class="d-grid gap-3 d-md-flex justify-content-md-end">
             {% if user.vehicle %}
-            <a class="btn btn-primary me-md-2" role="button" href="{% url 'my vehicle' pk=ride.pk %}">
+            <a class="btn btn-primary me-md-2" role="button" href="{% url 'my vehicle' %}">
                 Check My Vehicle
             </a>
             {% else %}
-            <a class="btn btn-primary me-md-2" role="button" href="{% url 'vehicle registrate' pk=ride.pk %}">
+            <a class="btn btn-primary me-md-2" role="button" href="{% url 'vehicle registrate'%}">
                 Become Driver!
             </a>
             {% endif %}
 
-            <a class="btn btn-secondary" role="button" href="{% url 'profile_edit_personal' pk=ride.pk %}">
+            <a class="btn btn-secondary" role="button" href="{% url 'profile_edit_personal' %}">
                 Edit Personal Information
             </a>
 
-            <a class="btn btn-danger" role="button" href="{% url 'profile_edit_password' pk=ride.pk %}">
+            <a class="btn btn-danger" role="button" href="{% url 'profile_edit_password' %}">
                 Change Password
             </a>
 
