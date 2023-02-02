@@ -23,7 +23,7 @@ class ProfileForm(forms.ModelForm):
         widget=forms.DateInput(
             attrs={
                 'placeholder':"%d/%m/%Y",
-                'type': "datetime-local",
+                'type': "date",
                 'class': "form-control"
             }
         )
