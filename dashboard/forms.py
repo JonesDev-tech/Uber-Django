@@ -82,25 +82,38 @@ class RideRequestForm(forms.ModelForm):
 class SearchRide(forms.Form):
     address = forms.CharField(
         max_length=100,
+        widget=forms.Textarea(
+            attrs={
+                'name' : "address",
+                'class' : "form-control",
+                'type' : "text",
+                'placeholder' : "eg: NC Trinity Commons",
+                'aria-label': "Username" ,
+                'aria-describedby':"basic-addon1"
+            }
+        )
     )
 
     start = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.NumberInput(
-            attrs={'cols': '5', 'rows': '1',
-                   'placeholder': 'Enter number here.'}),
+        widget=forms.DateTimeInput(
+            attrs={
+                'type': "datetime-local",
+                'class': "form-control"
+            }),
     )
     end = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.NumberInput(
-            attrs={'cols': '5', 'rows': '1',
-                   'placeholder': 'Enter number here.'}),
+        widget=forms.DateTimeInput(
+            attrs={
+                'type':"datetime-local",
+                'class':"form-control"
+            }),
     )
     passengerNum = forms.IntegerField(
         min_value=1, max_value=8,
         widget=forms.NumberInput(
-            attrs={'cols': '5', 'rows': '1',
-                   'placeholder': 'Enter number here.'}),
+            attrs={'class': 'form-control'}),
     )
 
     def clean_start(self):
