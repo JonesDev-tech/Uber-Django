@@ -195,7 +195,7 @@ def search_ride(request):
             message = "{number} orders found: ".format(number = str(len(rides)))
         else:
             rides = []
-            message = str(form.errors[0][0])
+            message = str(list(form.errors.values())[0])
     else:
         form = SearchRide(request.POST)
         rides = []
