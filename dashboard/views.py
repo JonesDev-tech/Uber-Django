@@ -329,9 +329,9 @@ def edit_profile(request):
         profile_form = ProfileForm(request.POST, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             curr_user = request.user
-            curr_user.last_name = user_form.last_name
-            curr_user.first_name = user_form.first_name
-            curr_user.email = user_form.email
+            curr_user.last_name = user_form.cleaned_data['last_name']
+            curr_user.first_name = user_form.cleaned_data['first_name']
+            curr_user.email = user_form.cleaned_data['email']
             curr_user.save()
             profile_form.save()
             return redirect('profile/')
