@@ -168,7 +168,7 @@
                 <a class="btn btn-danger" role="button" href="{% url 'cancel ride' pk=ride.pk %}"> Cancel
                 </a>
                 {% else %}
-                <a class="btn btn-danger" role="button"> Quit </a>
+                <a class="btn btn-danger" role="button" href="{% url 'quit ride' pk=ride.pk %}> Quit </a>
                 {% endif %}
             {% endif %}
 

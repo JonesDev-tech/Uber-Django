@@ -148,6 +148,9 @@ def ride_detail(request, pk):
     }
     return render(request, 'dashboard/ride_detail.html',context)
 
+def edit_success(request, pl):
+    return
+
 class EditRide(SuccessMessageMixin, generic.UpdateView):
     model = Ride
     form_class = RideRequestForm
@@ -284,5 +287,22 @@ def shared_rides(request):
                    }
     return render(request, 'dashboard/shared_rides.html', context)
 
-def quit_ride(request):
-    return render(request, 'dashboard/join_failed.html')
+def quit_ride(request, pk):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    ride = get_object_or_404(Ride, pk = pk)
+    if request.user == ride.owner:
+        raise Http404
+    else:
+        find = False
+        groups = Group.objects.filter(user=request.user)
+        for group in groups:
+            if group in ride.shared_by_user.all():
+                find = True
+        if not find:
+            raise Http404
+    for group in ride.shared_by_user.all():
+        if group.user == request.user:
+            ride.shared_by_user.remove(group)
+    ride.save()
+    return redirect('/shared')
