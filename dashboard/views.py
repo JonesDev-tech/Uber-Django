@@ -334,7 +334,7 @@ def edit_profile(request):
             curr_user.email = user_form.cleaned_data['email']
             curr_user.save()
             profile_form.save()
-            return redirect('profile/')
+            return redirect('/profile')
     else:
         user_form = PersonalInfoForm()
         profile_form = ProfileForm()
