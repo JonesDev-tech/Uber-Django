@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile, Group, Vehicle, Ride
 from django.core.exceptions import ValidationError
+from datetime import datetime
 
 # validation functions
 def validate_positive(value):
@@ -78,35 +79,41 @@ class RideRequestForm(forms.ModelForm):
     #             % (vtinfo.type_choices[vehicleType][1])
     #         )
     #     return cleaned_data
-class SearchRide(forms.ModelForm):
-    dest = forms.CharField(
-        label="Destination",
-        widget=forms.Textarea(
-            attrs={'cols': '10', 'rows': '1',
-                   'placeholder': 'Enter your address here.'}),
-        min_length=0,
+class SearchRide(forms.Form):
+    address = forms.CharField(
         max_length=100,
     )
 
-    arrive_time = forms.DateTimeField(
-        label="Desired Arrival Time",
+    start = forms.DateTimeField(
         input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.DateTimeInput(
-            attrs={
-                'placeholder': "dd/mm/yyyy hh:mm",
-                'type' : "datetime-local",
-            }
-        )
-    )
-    passengerNum = forms.IntegerField(
-        label= "Passenger Number",
         widget=forms.NumberInput(
             attrs={'cols': '5', 'rows': '1',
                    'placeholder': 'Enter number here.'}),
-        max_value=10, min_value=1
+    )
+    end = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.NumberInput(
+            attrs={'cols': '5', 'rows': '1',
+                   'placeholder': 'Enter number here.'}),
+    )
+    passengerNum = forms.IntegerField(
+        min_value=1, max_value=8,
+        widget=forms.NumberInput(
+            attrs={'cols': '5', 'rows': '1',
+                   'placeholder': 'Enter number here.'}),
     )
 
-    class Meta:
-        model = Ride
-        fields = ['dest', 'arrive_time', 'passengerNum',
-                  'vehicleType', 'if_share']
+    def clean_start(self):
+        cleaned_data = self.cleaned_data
+        start = cleaned_data.get("start")
+        if start < datetime.now():
+            raise forms.ValidationError("Search ride in future!")
+        return start
+
+    def clean_end(self):
+        cleaned_data = self.cleaned_data
+        start = cleaned_data.get("start")
+        end = cleaned_data.get("end")
+        if end < start:
+            raise forms.ValidationError("End time must later than start time")
+        return end

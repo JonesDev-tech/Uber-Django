@@ -29,7 +29,7 @@
         </a>
       </li>
       <li>
-        <a href="/search_rides" class="nav-link text-white">
+        <a href="/search_rides" class="nav-link active">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
           Search Open Rides
         </a>
@@ -67,20 +67,32 @@
           <form method="POST" class="row g-2"> {% csrf_token %}
 
               <div class="col-md-10">
-                <label for="ex1">Address keywords: </label>
-                <input name= "address" class="form-control" id="ex1" type="text" placeholder="eg: NC Trinity Commons" aria-label="Username" aria-describedby="basic-addon1">
+                  {{ form.address.errors }}
+                <label for="{{ form.address.id_for_label }}">Address keywords: </label>
+                  {{ form.address }}
+{#                  <input name= "address" class="form-control" id="ex1" type="text" placeholder="eg: NC Trinity Commons" aria-label="Username" aria-describedby="basic-addon1">#}
               </div>
+
               <div class="col-md-2">
-                <label for="ex2">Passengers: </label>
-                <input name="PassengerNum" class="form-control" id="ex2" type="number">
+                  {{ form.passengerNum.errors }}
+                <label for="{{ form.passengerNum.id_for_label}}">Passengers: </label>
+
+                  {{ form.passengerNum.errors }}
+{#                  <input name="PassengerNum" class="form-control" id="ex2" type="number">#}
               </div>
-                <label for="time_window">Choose your searching window: </label>
+
+                <label for="{{ form.start.id_for_label }}">Choose your searching window: </label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">start</span>
-                  <input name="start" type="datetime-local" class="form-control" placeholder="" id="time_window">
+                    {{ form.start.errors }}
+                    {{ form.start }}
+{#                  <input name="start" type="datetime-local" class="form-control" placeholder="" id="time_window">#}
                   <span class="input-group-text">end</span>
-                  <input name="end" type="datetime-local" class="form-control" placeholder="">
+                    {{ form.end.errors }}
+                    {{ form.end }}
+{#                  <input name="end" type="datetime-local" class="form-control" placeholder="">#}
                 </div>
+
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                   <small class="text-muted">{{ msg }}</small> &emsp; &emsp;
                   <button class="btn btn-primary " type="submit"> Search </button>
@@ -109,7 +121,7 @@
       <td>{{ ride.get_passenger_num }}</td>
         <td>{{ ride.get_v_type }}</td>
     <td>{{ ride.get_capacity}}</td>
-        <td><a class="btn btn-secondary btn-sm" role="button" href="{% url 'join ride' pk=ride.pk %}"></a></td>
+        <td><a class="btn btn-secondary btn-sm" role="button" href="{% url 'join ride' pk=ride.pk %}">Join</a></td>
     </tr>
 {% endfor %}
   </tbody>

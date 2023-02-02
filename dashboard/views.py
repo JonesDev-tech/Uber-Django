@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render, render
-from .forms import RegisterForm, ProfileForm, RideRequestForm
+from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide
 from .models import User, Profile, Ride, Group
 # from django.urls import reverse
 from django.utils import timezone
@@ -162,41 +162,48 @@ def search_ride(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
     if request.method == 'POST':
-        addr = request.POST.get('address')
-        start = request.POST.get('start')
-        end = request.POST.get('end')
-        number = request.POST.get('PassengerNum')
-        if addr == '' or start == '' or end == '' or number == '':
-            raise forms.ValidationError("Block can not be blank")
+        form = SearchRide(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            #     vehicleType = cleaned_data.get('vehicleType')
+            addr = cleaned_data.get('address')
+            start = cleaned_data.get('start')
+            end = cleaned_data.get('end')
+            number = cleaned_data.get('PassengerNum')
 
-        number = int(number)
-        #format time
-        start = datetime.strptime(start, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
-        end = datetime.strptime(end, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
+            # number = int(number)
+            #format time
+            # start = datetime.strptime(start, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
+            # end = datetime.strptime(end, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
 
-        rides = Ride.objects.filter(
-            completed=False,
-            confirmed=False,
-            if_share=True,
-            arrive_time__gte=start,
-            arrive_time__lte=end
-        ).exclude(owner=request.user).order_by("arrive_time")
-        addr = str(addr).lower().split()
-        groups = Group.objects.filter(user=request.user)
-        for group in groups:
-            rides = [ride for ride in rides if group not in ride.shared_by_user.all()]
-        for word in addr:
-            rides = [ride for ride in rides if word in str(ride.dest).lower()]
-        rides = [ride for ride in rides if \
-                 number + ride.get_passenger_num() + 1 <= \
-                 ride.get_capacity()]
-        message = "{number} orders found: ".format(number = str(len(rides)))
+            rides = Ride.objects.filter(
+                completed=False,
+                confirmed=False,
+                if_share=True,
+                arrive_time__gte=start,
+                arrive_time__lte=end
+            ).exclude(owner=request.user).order_by("arrive_time")
+            addr = str(addr).lower().split()
+            groups = Group.objects.filter(user=request.user)
+            for group in groups:
+                rides = [ride for ride in rides if group not in ride.shared_by_user.all()]
+            for word in addr:
+                rides = [ride for ride in rides if word in str(ride.dest).lower()]
+            rides = [ride for ride in rides if \
+                     number + ride.get_passenger_num() + 1 <= \
+                     ride.get_capacity()]
+            message = "{number} orders found: ".format(number = str(len(rides)))
+        else:
+            rides = []
+            message = "Input not valid. "
     else:
+        form = SearchRide(request.POST)
         rides = []
         message = "Results will be displayed below. "
 
     context = {
         "rides" : rides,
         "msg" : message,
+        "form" : form
     }
     return render(request, 'dashboard/search_rides.html', context=context)
