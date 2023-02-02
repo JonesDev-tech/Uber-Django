@@ -62,50 +62,59 @@
     </div>
   </div>
 
-<div class="container py-5">
+<div class="container" style="padding: 5%">
     <div class="row align-items-center">
         <div class="col-1"></div>
     <div class="col-9">
             <div class="h-100 p-5 bg-light border rounded-3">
-            <h3>Ride details</h3>
+            <h3>Welcome user.username! </h3>
             <br>
             <div class="d-flex w-100 align-items-center justify-content-between">
-              <strong class="mb-1">Destination: </strong>
-              <small class="text-muted">{{dest}}</small>
-              <strong class="mb-1">Arrive time: </strong>
-              <small class="text-muted">{{arrive_time}}</small>
-              <strong class="mb-1">Status: </strong>
-              <small class="text-muted">{{status}}</small>
+              <strong class="mb-1">Name: </strong>
+              <small class="text-muted">{{user.first_name}} {{ user.last_name }}</small>
+
+              <strong class="mb-1">Gender: </strong>
+              <small class="text-muted">{{gender}}</small>
+
+              <strong class="mb-1">DOB: </strong>
+              <small class="text-muted">{{info.dob}}</small>
             </div>
             <br>
+
             <div class="d-flex w-100 align-items-center justify-content-between">
-              <strong class="mb-1">Vehicle type: </strong>
-              <small class="text-muted">{{v_type}}</small>
-              <strong class="mb-1">Driver: </strong>
-              <small class="text-muted">{{driver}}</small>
+              <strong class="mb-1">Email: </strong>
+              <small class="text-muted">{{user.email}}</small>
+
+              <strong class="mb-1">Mobile: </strong>
+              <small class="text-muted">{{info.mobile}}</small>
               <strong class="mb-1">Plate: </strong>
               <small class="text-muted">{{ plate }}</small>
 
             </div>
             <br>
             <div class="d-flex w-100 align-items-center justify-content-between">
-              <strong class="mb-1">Driver Phone: </strong>
-              <small class="text-muted">{{ driver_phone }}</small>
-              <strong class="mb-1">Driver Email: </strong>
-              <small class="text-muted">{{ driver_Email }}</small>
+
+              <small class="text-muted">Joined in {{ user.date_joined }}</small>
 
             </div>
             <br>
-            <div class="d-flex justify-content-between align-items-center">
-              <strong class="mb-1">Shared by: </strong>
-            </div>
-
             <div class="d-grid gap-3 d-md-flex justify-content-md-end">
+            {% if user.vehicle %}
+            <a class="btn btn-primary me-md-2" role="button" href="{% url 'my vehicle' pk=ride.pk %}">
+                Check My Vehicle
+            </a>
+            {% else %}
+            <a class="btn btn-primary me-md-2" role="button" href="{% url 'vehicle registrate' pk=ride.pk %}">
+                Become Driver!
+            </a>
+            {% endif %}
 
-            <a class="btn btn-primary me-md-2" role="button" href="{% url 'edit ride' pk=ride.pk %}">
+            <a class="btn btn-secondary" role="button" href="{% url 'profile_edit_personal' pk=ride.pk %}">
                 Edit Personal Information
             </a>
-            <a class="btn btn-danger" role="button" href="{% url 'cancel ride' pk=ride.pk %}"> Change Password
+
+            <a class="btn btn-danger" role="button" href="{% url 'profile_edit_password' pk=ride.pk %}">
+                Change Password
             </a>
 
             </div>

@@ -314,12 +314,26 @@ def profile_page(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
     info = get_object_or_404(Profile, user = request.user)
-    return
+    gender = info.get_gender()
+    context = {
+        'user':request.user,
+        'info':info,
+        'gender':gender
+    }
+    return render(request, 'dashboard/profile.html', context)
 
 def edit_profile(request):
     return
 
 def change_password(request):
+    return
+
+# class as view
+def vehicle_regist(request):
+    return
+
+#
+def vehicle_regist(request):
     return
 
 def test_url(request):
