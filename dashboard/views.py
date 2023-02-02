@@ -12,6 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django import forms
 #TODO: Success 页面, edit删除ride所有共享成员, 邮件提醒
 #TODO: 检查非法输入
+# take second element for sort
 
 def require_ride(request):
     if not request.session.get('is_login', None):
@@ -192,6 +193,7 @@ def search_ride(request):
             rides = [ride for ride in rides if \
                      number + ride.get_passenger_num() + 1 <= \
                      ride.get_capacity()]
+            rides.sort(key=lambda x: x.arrive_time)
             message = "{number} orders found: ".format(number = str(len(rides)))
         else:
             rides = []
@@ -239,29 +241,35 @@ def shared_rides(request):
         curr_user = get_object_or_404(User, id = request.session['user_id'])
         groups = Group.objects.filter(user=request.user)
 
-        open_ride = Ride.objects.filter(
+        open_ride_ = Ride.objects.filter(
             confirmed=False,
             completed=False,
         ).exclude(owner=request.user).order_by("arrive_time")
 
+        open_ride = []
         for group in groups:
-            open_ride = [ride for ride in open_ride if group in ride.shared_by_user.all()]
+            open_ride.append([ride for ride in open_ride_ if group in ride.shared_by_user.all()])
+        open_ride.sort(key=lambda x: x.arrive_time)
 
-        confirmed_ride = Ride.objects.filter(
+        confirmed_ride_ = Ride.objects.filter(
             confirmed=True,
             completed=False,
         ).exclude(owner=request.user).order_by("arrive_time")
 
+        confirmed_ride = []
         for group in groups:
-            confirmed_ride = [ride for ride in confirmed_ride if group in ride.shared_by_user.all()]
+            confirmed_ride.append([ride for ride in confirmed_ride_ if group in ride.shared_by_user.all()])
+        confirmed_ride.sort(key=lambda x: x.arrive_time)
 
-        completed_ride = Ride.objects.filter(
+        completed_ride_ = Ride.objects.filter(
             confirmed=True,
             completed=True,
         ).exclude(owner=request.user).order_by("arrive_time")
 
+        completed_ride = []
         for group in groups:
-            completed_ride = [ride for ride in completed_ride if group in ride.shared_by_user.all()]
+            completed_ride.append([ride for ride in completed_ride_ if group in ride.shared_by_user.all()])
+        completed_ride.sort(key=lambda x: x.arrive_time)
 
         context = {"open_rides": open_ride,
                    "confirmed_rides": confirmed_ride,
