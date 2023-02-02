@@ -173,8 +173,8 @@ def search_ride(request):
 
             # number = int(number)
             #format time
-            # start = datetime.strptime(start, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
-            # end = datetime.strptime(end, "%Y-%m-%dT%H:%M").astimezone(timezone.utc)
+            start = start.astimezone(timezone.utc)
+            end = end.astimezone(timezone.utc)
 
             rides = Ride.objects.filter(
                 completed=False,

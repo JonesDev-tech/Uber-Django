@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import Profile, Group, Vehicle, Ride
 from django.core.exceptions import ValidationError
 from datetime import datetime
-
+from django.utils import timezone
 # validation functions
 def validate_positive(value):
     if value <= 0:
@@ -63,7 +63,8 @@ class RideRequestForm(forms.ModelForm):
         model = Ride
         fields = ['dest', 'arrive_time', 'passengerNum',
                   'vehicleType', 'if_share']
-    # def clean_<fieldname>()
+    def clean_arrive_time(self):
+        return self.cleaned_data.get('arrive_time').astimezone(timezone.utc)
     # def clean(self, *args, **kwargs):
     #     cleaned_data = self.cleaned_data
     #     vehicleType = cleaned_data.get('vehicleType')
@@ -119,15 +120,15 @@ class SearchRide(forms.Form):
 
     def clean_start(self):
         cleaned_data = self.cleaned_data
-        start = cleaned_data.get("start")
-        if start < datetime.now():
+        start = cleaned_data.get("start").astimezone(timezone.utc)
+        if start < datetime.now().astimezone(timezone.utc):
             raise forms.ValidationError("Search ride in future!")
         return start
 
     def clean_end(self):
         cleaned_data = self.cleaned_data
-        start = cleaned_data.get("start")
-        end = cleaned_data.get("end")
+        start = cleaned_data.get("start").astimezone(timezone.utc)
+        end = cleaned_data.get("end").astimezone(timezone.utc)
         if end < start:
             raise forms.ValidationError("End time must later than start time")
         return end
