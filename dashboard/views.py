@@ -510,7 +510,7 @@ def confirm_task(request, pk):
         return  redirect('/vehicle_reg')
     ride = get_object_or_404(Ride, pk=pk)
     curr_user = request.user
-    if (not ride.vehicleType) or ride.vehicle == curr_user.vehicle.vehicleType:
+    if (not ride.vehicleType) or ride.vehicleType == curr_user.vehicle.vehicleType:
         if ride.get_passenger_num() + 1 <= \
            request.user.vehicle.get_capacity():
             if (not ride.special_req) or ride.special_req == ''\
