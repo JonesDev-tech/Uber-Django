@@ -94,7 +94,7 @@ class RideRequestForm(forms.ModelForm):
         widget=forms.NumberInput(
             attrs={'cols': '5', 'rows': '1',
                    'placeholder': 'Enter number here.'}),
-        max_value=10, min_value=1
+        max_value=11, min_value=1
     )
     v_info = VehicleInfo()
 
@@ -109,17 +109,14 @@ class RideRequestForm(forms.ModelForm):
         if self.cleaned_data.get('vehicleType'):
             if self.cleaned_data.get('passengerNum') + 1 > self.v_info.capacity[self.cleaned_data.get('vehicleType')]:
                 raise forms.ValidationError(
-                    "To many passenger for this kind of car."
+                    "Too many passenger for this kind of car."
                 )
-        raise forms.ValidationError(
-            "test"
-        )
         return self.cleaned_data.get('passengerNum')
 
     class Meta:
         model = Ride
-        fields = ['dest', 'arrive_time', 'passengerNum',
-                  'vehicleType', 'if_share', 'special_req']
+        fields = ['dest', 'arrive_time', 'vehicleType',
+                   'passengerNum', 'if_share', 'special_req']
 
 
 class SearchRide(forms.Form):
