@@ -9,7 +9,7 @@ urlpatterns = [
     path('require_ride/', views.require_ride, name='require ride'),
 
     path('ride_detail/<int:pk>', views.ride_detail, name='ride detail'),
-    path('ride_detail/edit/<int:pk>', views.EditRide.as_view(), name='edit ride'),
+    path('ride_detail/edit/<int:pk>', views.edit_ride, name='edit ride'),
     path('ride_detail/edit/success', views.edit_success, name='ride edit success'),
     path('ride_detail/<int:pk>/cancel/', views.ride_cancel, name='cancel ride'),
     path('quit_ride/<int:pk>', views.quit_ride, name='quit ride'),

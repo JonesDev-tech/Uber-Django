@@ -162,27 +162,28 @@ def ride_detail(request, pk):
 def edit_success(request):
     return render(request, 'dashboard/ride_edit_success.html')
 
-class EditRide(SuccessMessageMixin, generic.UpdateView):
-    model = Ride
-    form_class = RideRequestForm
-    template_name = 'dashboard/edit_ride.html'
-    # redirect to this url after success
-    success_url = "/ride_detail/edit/success"
-    success_message = "Changes successfully saved."
-
-    # Check if the user is qualified for edit
-    def get_object(self, *args, **kwargs):
-        if not self.request.session.get('is_login', None):
-            return redirect('/login')
-        ride = get_object_or_404(Ride, pk=self.kwargs['pk'])
-        if not ride.owner == self.request.user:
-            raise Http404
-
+def edit_ride(request, pk):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    ride = get_object_or_404(Ride, pk=pk)
+    if not ride.owner == request.user:
+        raise Http404
+    if request.method == 'POST':
+        form = RideRequestForm(request.POST, instance=ride)
+        form.save()
         mail_list = []
         for group in ride.shared_by_user.all():
-            if group.user != self.request.user:
+            if group.user != request.user:
                 mail_list.append(group.user.email)
                 ride.shared_by_user.remove(group)
+            elif group.groupNum != ride.passengerNum:
+                try:
+                    old_group = Group.objects.get(user=request.user, groupNum=ride.passengerNum)
+                    ride.shared_by_user.remove(group)
+                    ride.shared_by_user.add(old_group)
+                except Group.DoesNotExist:
+                    group.groupNum=ride.passengerNum
+                    group.save()
         ride.save()
         mail_content = "<h3> Your Uber order has been canceled!</h3>" \
                        "<p>This ride has been edited by owner, your shared ride has been canceled.</p>" \
@@ -200,7 +201,10 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
             fail_silently=False,
             html_message=mail_content
         )
-        return ride
+        return redirect("/ride_detail/edit/success")
+    else:
+        form = RideRequestForm(instance=ride)
+    return render(request,'dashboard/edit_ride.html', context={'form':form})
 
 def search_ride(request):
     if not request.session.get('is_login', None):
