@@ -521,8 +521,8 @@ def confirm_task(request, pk):
                 mail_list = [ride.owner.email]
                 for group in ride.shared_by_user.all():
                     mail_list.append(group.user.email)
-                mail_content = "<h2> Your Uber order has been confirmed!<\h2>" \
-                               "<h4> Order information: <\h4>" \
+                mail_content = "<h2> Your Uber order has been confirmed!</h2>" \
+                               "<h4> Order information: </h4>" \
                                "<p> Order number: {order_id} <br>" \
                                "Destination: {dest} <br>" \
                                "Expected arrive time: {time} <br>" \
