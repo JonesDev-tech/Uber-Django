@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render, render
-from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide, PersonalInfoForm, VehicleForm
+from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide, PersonalInfoForm, VehicleForm, ChangePasswordForm
 from .models import User, Profile, Ride, Group, Vehicle
 # from django.urls import reverse
 from django.utils import timezone
@@ -333,6 +333,8 @@ def profile_page(request):
     return render(request, 'dashboard/profile.html', context)
 
 def edit_profile(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
     if request.method == 'POST':
         user_form = PersonalInfoForm(request.POST)
         profile = get_object_or_404(Profile, user=request.user)
@@ -353,7 +355,16 @@ def edit_profile(request):
 
 #TODO: change password
 def change_password(request):
-    return
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/profile')
+    else:
+        form = ChangePasswordForm()
+    return render(request, 'dashboard/change_password.html', context={'form': form})
 
 def vehicle_registrate(request):
     if request.method == 'POST':
