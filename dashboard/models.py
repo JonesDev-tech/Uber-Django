@@ -53,7 +53,7 @@ class Ride(models.Model):
     shared_by_user = models.ManyToManyField(Group, blank=True, default=None)
     vehicle_info = VehicleInfo()
 
-    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description, blank=True, default=None)
+    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description, blank=True, default=-1, null=True)
     dest = models.TextField(max_length=100)
     special_req = models.TextField(max_length=100, blank=True, default='')
     arrive_time = models.DateTimeField()
