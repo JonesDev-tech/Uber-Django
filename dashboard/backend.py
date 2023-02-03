@@ -24,12 +24,14 @@ class CustomBackend(ModelBackend):
             return None
 
 class VehicleInfo:
-    capacity = [4, 5, 2, 4, 7]
-    type = [(0, 'Sedan'),  #4
-            (1, 'SUV'),  #4
-            (2, 'Coupe'),  #2
-            (3, 'Hatchback'),  #4
-            (4, 'Mini van'),  #7
+    capacity = [9, 4, 5, 2, 4, 7]
+    type = [
+            (0, 'Not required'),
+            (1, 'Sedan'),  #4
+            (2, 'SUV'),  #4
+            (3, 'Coupe'),  #2
+            (4, 'Hatchback'),  #4
+            (5, 'Mini van'),  #7
             ]
     description = "-Sedan: 4 door trunks, capacity: 4 <br/>\
         -SUV: Sport-Utility Vehicle, capacity: 5 <br/>\

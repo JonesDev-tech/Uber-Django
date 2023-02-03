@@ -33,7 +33,7 @@ class Group(models.Model):
 
 class Vehicle(models.Model):
     vehicle_info = VehicleInfo()
-    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description, blank=False, null=False)
+    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vehicle', default=None)
     plateNumber = models.CharField(max_length=20)
     special_info = models.TextField(max_length=100, blank=True, default='')
@@ -53,7 +53,7 @@ class Ride(models.Model):
     shared_by_user = models.ManyToManyField(Group, blank=True, default=None)
     vehicle_info = VehicleInfo()
 
-    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description, blank=True, default=-1, null=True)
+    vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description)
     dest = models.TextField(max_length=100)
     special_req = models.TextField(max_length=100, blank=True, default='')
     arrive_time = models.DateTimeField()
@@ -76,16 +76,11 @@ class Ride(models.Model):
         return total
 
     def get_v_type(self):
-        if self.vehicleType >= 0:
-            return self.vehicle_info.type[self.vehicleType][1]
-        else:
-            return "Not required"
+        return self.vehicle_info.type[self.vehicleType][1]
 
     def get_capacity(self):
-        if self.vehicleType:
-            return self.vehicle_info.capacity[self.vehicleType]
-        else:
-            return 9
+       return self.vehicle_info.capacity[self.vehicleType]
+
 
 
         

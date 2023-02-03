@@ -475,7 +475,7 @@ def search_tasks(request):
                     rides = [ride for ride in rides if word in str(ride.dest).lower()]
 
             rides = [ride for ride in rides if \
-                     (ride.vehicleType < 0) or \
+                     (not ride.vehicleType) or \
                      ride.vehicleType == request.user.vehicle.vehicleType]
 
             rides = [ride for ride in rides if \
@@ -510,7 +510,7 @@ def confirm_task(request, pk):
         return  redirect('/vehicle_reg')
     ride = get_object_or_404(Ride, pk=pk)
     curr_user = request.user
-    if ride.vehicleType < 0 or ride.vehicle == curr_user.vehicle.vehicleType:
+    if (not ride.vehicleType) or ride.vehicle == curr_user.vehicle.vehicleType:
         if ride.get_passenger_num() + 1 <= \
            request.user.vehicle.get_capacity():
             if (not ride.special_req) or ride.special_req == ''\
