@@ -40,5 +40,6 @@ urlpatterns = [
     path('delete_account/', views.delete_vehicle, name='delete account'),
     path('delete_confirm/', views.delete_confirm, name='delete confirm'),
 
-    path('404/', views.handle_404, name='404')
+    path('404/', views.handle_404, name='404'),
+    path('admin/', views.handle_404, name='404')
 ]
