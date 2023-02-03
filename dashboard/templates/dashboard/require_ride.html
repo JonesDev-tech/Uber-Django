@@ -11,40 +11,34 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="/" class="nav-link text-white" aria-current="page">
+        <a href="{% url 'started_ride'%}" class="nav-link text-white" aria-current="page">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
           Started Rides
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a href="{% url 'shared rides' %}" class="nav-link text-white">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Shared Rides
         </a>
       </li>
         <li>
-        <a href="/require_ride" class="nav-link active">
+        <a href="{% url 'require ride'%}" class="nav-link active">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
           Require Ride
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+        <a href="{% url 'search rides'%}" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
           Search Open Rides
         </a>
       </li>
 
       <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-          My tasks
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
+        <a href="{% url 'profile'%}" class="nav-link text-white">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          My Car
+          My Profile
         </a>
       </li>
     </ul>
@@ -57,7 +51,7 @@
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
 <!--        <li><a class="dropdown-item" href="#">New project...</a></li>-->
 <!--        <li><a class="dropdown-item" href="#">Settings</a></li>-->
-<!--        <li><a class="dropdown-item" href="#">Profile</a></li>-->
+        <li><a class="dropdown-item" href="{% url 'switch to driver' %}">Switch to Driver Portal</a></li>
 <!--        <li><hr class="dropdown-divider"></li>-->
         <li><a class="dropdown-item" href="{% url 'logout' %}?next={% url 'login' %}">Sign out</a></li>
       </ul>
