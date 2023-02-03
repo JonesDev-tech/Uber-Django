@@ -28,9 +28,12 @@ urlpatterns = [
     #vehicle registrate
     path('vehicle_reg/', views.vehicle_registrate, name='vehicle registrate'),
     #switch to driver portal redirect to vehicle regist or tasks
-    path('driver/', views.test_url, name='switch to driver'),
-    path('tasks/', views.test_url, name='tasks'),
+    path('driver/', views.switch_to_driver, name='switch to driver'),
+    path('tasks/', views.driver_tasks, name='tasks'),
+
     path('search_tasks/', views.test_url, name='search tasks'),
+    path('confirm/<int:pk>', views.test_url, name='search tasks'),
+
     path('my_vehicle/', views.test_url, name='my vehicle'),
     #delete driver account
     path('delete_account/', views.test_url, name='delete account'),

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render, render
-from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide, PersonalInfoForm
+from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide, PersonalInfoForm, VehicleForm
 from .models import User, Profile, Ride, Group
 # from django.urls import reverse
 from django.utils import timezone
@@ -99,7 +99,11 @@ def ride_detail(request, pk):
         return redirect('/login')
     gender = ['female', 'male', 'NG']
     vehicle_info = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Mini van']
-    ride = get_object_or_404(Ride, pk=pk)
+    try:
+        ride = get_object_or_404(Ride, pk=pk)
+    except:
+        raise Http404("This is not your ride! ")
+    
     curr_user = get_object_or_404(User, id=request.session['user_id'])
     if curr_user != ride.owner:
         find = False
@@ -108,7 +112,7 @@ def ride_detail(request, pk):
             if group in ride.shared_by_user.all():
                 find = True
         if not find:
-            raise Http404
+            raise Http404("This is not your ride! ")
     # status
     if ride.completed:
         status = "Completed"
@@ -341,14 +345,51 @@ def edit_profile(request):
     return render(request, 'dashboard/edit_profile.html', context={'user_form': user_form,
                                                                   'profile_form': profile_form})
 
-
 def change_password(request):
     return
 
 # class as view
 def vehicle_registrate(request):
-    return
+    if request.method == 'POST':
+        vehicle_form = VehicleForm(request.POST)
+        if vehicle_form.is_valid():
+            vehicle = vehicle_form.save(commit=False)
+            vehicle.owner = request.user
+            vehicle.save()
+            return redirect('/driver')
+    else:
+        vehicle_form = VehicleForm()
+    return render(request, 'registration/register.html', context={'form': vehicle_form})
 
+def switch_to_driver(request):
+    if request.user.vehicle:
+        return redirect('/tasks')
+    else:
+        return redirect('/vehicle_reg')
+
+def driver_tasks(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    elif not request.user.vehicle:
+        return  redirect('/')
+    else:
+        curr_user = get_object_or_404(User, id = request.session['user_id'])
+        ongoing = Ride.objects.filter(
+            confirmed=True,
+            completed=False,
+            vehicle=request.user.vehicle
+        ).order_by("arrive_time")
+
+        completed = Ride.objects.filter(
+            confirmed=True,
+            completed=True,
+            owner = curr_user
+        ).order_by("arrive_time")
+        context = {"ongoing": ongoing,
+                   "completed": completed,
+                   "user":curr_user
+                   }
+        return render(request, 'driver_side/driver_tasks.html', context)
 
 def test_url(request):
     # try:

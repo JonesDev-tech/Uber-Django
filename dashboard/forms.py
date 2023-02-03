@@ -41,8 +41,10 @@ class PersonalInfoForm(forms.ModelForm):
         fields = ["first_name", "last_name", "email"]
 
 # PasswordForm()
-
-# VehicleForm()
+class VehicleForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = ["vehicleType", "plateNumber"]
 
 class RideRequestForm(forms.ModelForm):
     dest = forms.CharField(
