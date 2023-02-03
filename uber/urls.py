@@ -24,3 +24,4 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('', include('dashboard.urls')),
 ]
+handler404 = 'dashboard.views.response_error_handler'
