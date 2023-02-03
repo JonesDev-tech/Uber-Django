@@ -323,10 +323,11 @@ def quit_ride(request, pk):
 def profile_page(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
-    info = get_object_or_404(Profile, user = request.user)
+    user = get_object_or_404(User, id=request.user.id)
+    info = get_object_or_404(Profile, user = user)
     gender = info.get_gender()
     context = {
-        'user':request.user,
+        'user':user,
         'info':info,
         'gender':gender
     }
@@ -358,9 +359,11 @@ def change_password(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
     if request.method == 'POST':
-        form = ChangePasswordForm(request.POST, instance=request.user)
+        form = ChangePasswordForm(request.POST)
         if form.is_valid():
-            form.save()
+            request.user.username = form.cleaned_data['username']
+            request.user.password = form.cleaned_data['password1']
+            request.user.save()
             return redirect('/profile')
     else:
         form = ChangePasswordForm()
