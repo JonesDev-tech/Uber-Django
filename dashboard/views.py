@@ -364,7 +364,7 @@ def change_password(request):
             request.user.username = form.cleaned_data['username']
             request.user.password = form.cleaned_data['password1']
             request.user.save()
-            return redirect('/profile')
+            return redirect('/logout')
     else:
         form = ChangePasswordForm()
     return render(request, 'dashboard/change_password.html', context={'form': form})
