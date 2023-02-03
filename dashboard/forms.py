@@ -47,6 +47,7 @@ class PersonalInfoForm(forms.ModelForm):
 class VehicleForm(forms.ModelForm):
     special_info = forms.CharField(
         label="Special information",
+        required=False,
         widget=forms.Textarea(
             attrs={'cols': '10', 'rows': '1',
                    'placeholder': 'Optional special information about your car.'}),
@@ -70,6 +71,7 @@ class RideRequestForm(forms.ModelForm):
 
     special_req = forms.CharField(
         label="Special Requirement",
+        required=False,
         widget=forms.Textarea(
             attrs={'cols': '10', 'rows': '1',
                    'placeholder': 'Optional special requirements.'}),
