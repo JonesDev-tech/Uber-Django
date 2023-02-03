@@ -120,6 +120,9 @@ def ride_detail(request, pk):
         status = "Confirmed"
     else:
         status = "Open"
+
+    v_type = ride.get_v_type()
+
     # driver
     if ride.vehicle:
         driver_name = ride.vehicle.owner.first_name + ride.vehicle.owner.last_name
@@ -140,7 +143,7 @@ def ride_detail(request, pk):
     context = {
         "dest" : ride.dest,
         "arrive_time" : ride.arrive_time,
-        "v_type": vehicle_info[ride.vehicleType],
+        "v_type": v_type,
         "shared_by": shared_by,
         "owner" : ride.owner,
         "status" : status,
@@ -182,7 +185,6 @@ def search_ride(request):
         form = SearchRide(request.POST)
         if form.is_valid():
             cleaned_data = form.cleaned_data
-            #     vehicleType = cleaned_data.get('vehicleType')
             addr = cleaned_data.get('address')
             start = cleaned_data.get('start')
             end = cleaned_data.get('end')
@@ -362,7 +364,7 @@ def vehicle_registrate(request):
     return render(request, 'registration/register.html', context={'form': vehicle_form})
 
 def switch_to_driver(request):
-    if request.user.vehicle:
+    if hasattr(request.user, 'vehicle'):
         return redirect('/tasks')
     else:
         return redirect('/vehicle_reg')
