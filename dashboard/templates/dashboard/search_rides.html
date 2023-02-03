@@ -60,7 +60,7 @@
     </div>
   </div>
 
-<div class="container" style="padding: 2%;">
+<div class="container" style="padding: 2%">
     <div class="row align-items-md-stretch">
       <div class="col-md-15">
         <div class="h-130 p-5 bg-light border rounded-3">
@@ -118,7 +118,7 @@
       <td>{{ ride.get_passenger_num }}</td>
         <td>{{ ride.get_v_type }}</td>
     <td>{{ ride.get_capacity}}</td>
-        <td><a class="btn btn-success btn-sm" role="button" href="{% url 'join ride' pk=ride.pk %}">Join</a></td>
+        <td><a class="btn btn-secondary btn-sm" role="button" href="{% url 'join ride' pk=ride.pk %}">Join</a></td>
     </tr>
 {% endfor %}
   </tbody>
