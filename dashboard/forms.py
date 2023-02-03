@@ -98,10 +98,6 @@ class RideRequestForm(forms.ModelForm):
     )
     v_info = VehicleInfo()
 
-    class Meta:
-        model = Ride
-        fields = ['dest', 'arrive_time', 'passengerNum',
-                  'vehicleType', 'if_share', 'special_req']
     def clean_arrive_time(self):
         return self.cleaned_data.get('arrive_time').astimezone(timezone.utc)
 
@@ -117,6 +113,12 @@ class RideRequestForm(forms.ModelForm):
                 )
         return self.cleaned_data.get('passengerNum')
 
+    class Meta:
+        model = Ride
+        fields = ['dest', 'arrive_time', 'passengerNum',
+                  'vehicleType', 'if_share', 'special_req']
+
+    
 class SearchRide(forms.Form):
     address = forms.CharField(
         max_length=100,

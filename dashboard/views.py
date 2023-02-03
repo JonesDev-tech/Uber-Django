@@ -17,7 +17,6 @@ from django.contrib.messages.views import SuccessMessageMixin
 def require_ride(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
-
     if request.method == "POST":
         form = RideRequestForm(request.POST)
         curr_user = get_object_or_404(User, id=request.session['user_id'])
