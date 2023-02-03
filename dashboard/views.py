@@ -361,7 +361,7 @@ def vehicle_registrate(request):
             return redirect('/driver')
     else:
         vehicle_form = VehicleForm()
-    return render(request, 'registration/register.html', context={'form': vehicle_form})
+    return render(request, 'dashboard/vehicle_regist.html', context={'form': vehicle_form})
 
 def switch_to_driver(request):
     if hasattr(request.user, 'vehicle'):
