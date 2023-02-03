@@ -373,8 +373,8 @@ def edit_profile(request):
             profile_form.save()
             return redirect('/profile')
     else:
-        user_form = PersonalInfoForm()
-        profile_form = ProfileForm()
+        user_form = PersonalInfoForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'dashboard/edit_profile.html', context={'user_form': user_form,
                                                                   'profile_form': profile_form})
 

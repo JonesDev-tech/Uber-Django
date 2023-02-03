@@ -128,7 +128,7 @@ class SearchRide(forms.Form):
                 'name' : "address",
                 'class' : "form-control",
                 'type' : "text",
-                'placeholder' : "eg: NC Trinity Commons",
+                'placeholder' : "Optional key words eg: NC Trinity Commons",
                 'aria-label': "Username" ,
                 'aria-describedby':"basic-addon1",
                 'rows': '1',
