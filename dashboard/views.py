@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render_to_response
 from django import forms
 #TODO: Success 页面, edit删除ride所有共享成员, 邮件提醒
 #TODO: 检查非法输入
