@@ -35,14 +35,6 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['mobile', 'dob', 'gender']
 
-    def clean_dob(self):
-        cleaned_data = self.cleaned_data
-        if cleaned_data.get("dob"):
-            dob = cleaned_data.get("dob").astimezone(timezone.utc)
-            if dob >= datetime.now().astimezone(timezone.utc):
-                raise forms.ValidationError("Please choose correct birthday.")
-        return  cleaned_data.get("dob")
-
 class PersonalInfoForm(forms.ModelForm):
     first_name = forms.CharField(max_length=40)
     last_name = forms.CharField(max_length=40)
