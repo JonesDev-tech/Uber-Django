@@ -54,7 +54,7 @@
   <span class="fs-5 fw-semibold">Ongoing Orders</span>
 </a>
 <div class="list-group list-group-flush border-bottom scrollarea" >
-  {% for ride in open_rides %}
+  {% for ride in ongoing %}
   <a href="{% url 'ride detail' pk=ride.pk %}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
     <div class="d-flex w-100 align-items-center justify-content-between">
       <strong class="mb-1">Arrive time: </strong>
@@ -87,7 +87,7 @@
   <span class="fs-5 fw-semibold">Completed Order</span>
 </a>
 <div class="list-group list-group-flush border-bottom scrollarea">
-  {% for ride in confirmed_rides %}
+  {% for ride in completed %}
   <a href="{% url 'ride detail' pk=ride.pk %}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
     <div class="d-flex w-100 align-items-center justify-content-between">
       <strong class="mb-1">Arrive time: </strong>
