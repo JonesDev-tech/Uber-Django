@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django import forms
+from django.http import HttpResponse
 #TODO: Success 页面, edit删除ride所有共享成员, 邮件提醒
 #TODO: 检查非法输入
 # take second element for sort
@@ -402,4 +402,4 @@ def handle_404(request):
     return render(request, '404/404.html')
 
 def response_error_handler(request, exception=None):
-    return render(request, '404/404.html')
+    return HttpResponse('404/404.html', status=404)
