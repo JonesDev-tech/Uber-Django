@@ -24,7 +24,7 @@ class CustomBackend(ModelBackend):
             return None
 
 class VehicleInfo:
-    capacity = [9, 4, 5, 2, 4, 7]
+    capacity = [11, 4, 5, 2, 4, 7]
     type = [
             (0, 'Not required'),
             (1, 'Sedan'),  #4
