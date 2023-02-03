@@ -17,6 +17,11 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
 
+class ChangePasswordForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ["username", "password1", "password2"]
+
 # Override clean() function in forms, to verify if the input is legal
 class ProfileForm(forms.ModelForm):
     dob = forms.DateField(

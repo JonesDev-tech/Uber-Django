@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render, render
 from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide, PersonalInfoForm, VehicleForm
-from .models import User, Profile, Ride, Group
+from .models import User, Profile, Ride, Group, Vehicle
 # from django.urls import reverse
 from django.utils import timezone
 from datetime import datetime
@@ -98,7 +98,7 @@ def ride_detail(request, pk):
     if not request.session.get('is_login', None):
         return redirect('/login')
     gender = ['female', 'male', 'NG']
-    vehicle_info = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Mini van']
+
     try:
         ride = get_object_or_404(Ride, pk=pk)
     except:
@@ -107,11 +107,14 @@ def ride_detail(request, pk):
     curr_user = get_object_or_404(User, id=request.session['user_id'])
     if curr_user != ride.owner:
         find = False
+        is_driver = False
         groups = Group.objects.filter(user=request.user)
         for group in groups:
             if group in ride.shared_by_user.all():
                 find = True
-        if not find:
+        if ride.vehicle and request.user == ride.vehicle.owner:
+                is_driver = True
+        if (not find) and (not is_driver):
             raise Http404("This is not your ride! ")
     # status
     if ride.completed:
@@ -154,7 +157,7 @@ def ride_detail(request, pk):
         "gender": gender,
         "curr_user": curr_user,
         "ride": ride,
-        "driver" : driver
+        "driver" : driver,
     }
     return render(request, 'dashboard/ride_detail.html',context)
 
@@ -365,6 +368,8 @@ def vehicle_registrate(request):
     return render(request, 'dashboard/vehicle_regist.html', context={'form': vehicle_form})
 
 def switch_to_driver(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
     if hasattr(request.user, 'vehicle'):
         return redirect('/tasks')
     else:
@@ -373,7 +378,7 @@ def switch_to_driver(request):
 def driver_tasks(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
-    elif not hasattr(request.user, 'vehicle'):
+    if not hasattr(request.user, 'vehicle'):
         return  redirect('/')
     else:
         curr_user = get_object_or_404(User, id = request.session['user_id'])
@@ -393,6 +398,60 @@ def driver_tasks(request):
                    "user":curr_user
                    }
         return render(request, 'driver_side/driver_tasks.html', context)
+
+def complete_task(request, pk):
+    ride = get_object_or_404(Ride, pk=pk)
+    if ride.vehicle and ride.vehicle.owner == request.user:
+        ride.completed = True
+        ride.save()
+        return redirect("/tasks")
+    else:
+        raise Http404
+
+def check_my_vehicle(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    if not hasattr(request.user, 'vehicle'):
+        return  redirect('/vehicle_reg')
+    vehicle = request.user.vehicle
+    return render(request, 'driver_side/my_vehicle.html', context={'vehicle': vehicle})
+
+class EditVehicle(SuccessMessageMixin, generic.UpdateView):
+    model = Vehicle
+    form_class = VehicleForm
+    template_name = 'driver_side/edit_vehicle.html'
+    # redirect to this url after success
+    success_url = "/my_vehicle"
+    success_message = "Changes successfully saved."
+
+    # Check if the user is qualified for edit
+    def get_object(self, *args, **kwargs):
+        if not self.request.session.get('is_login', None):
+            return redirect('/login')
+        if not hasattr(self.request.user, 'vehicle'):
+            return redirect('/vehicle_reg')
+        vehicle = get_object_or_404(Vehicle, owner=self.request.user)
+        return vehicle
+
+def search_tasks(request):
+    return
+
+def confirm_task(request, pk):
+    return
+
+def delete_vehicle(request):
+    return
+
+def delete_confirm(request):
+    return
+
+
+
+
+
+
+
+
 
 
 

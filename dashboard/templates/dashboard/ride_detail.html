@@ -165,11 +165,18 @@
                 <a class="btn btn-primary me-md-2" role="button" href="{% url 'edit ride' pk=ride.pk %}">
                     Edit
                 </a>
-                <a class="btn btn-danger" role="button" href="{% url 'cancel ride' pk=ride.pk %}"> Cancel
+                <a class="btn btn-danger" role="button" href="{% url 'cancel ride' pk=ride.pk %}">
+                    Cancel
                 </a>
-                {% elif curr_user == driver %}
-                {% else %}
-                <a class="btn btn-danger" role="button" href="{% url 'quit ride' pk=ride.pk %}"> Quit </a>
+                {% elif curr_user != driver %}
+                <a class="btn btn-danger" role="button" href="{% url 'quit ride' pk=ride.pk %}">
+                    Quit </a>
+                {% endif %}
+
+            {% elif status == "Confirmed" %}
+                {% if curr_user == driver%}
+                    <a class="btn btn-primary" role="button" href="{% url 'complete task' pk=ride.pk %}">
+                    Complete </a>
                 {% endif %}
             {% endif %}
 

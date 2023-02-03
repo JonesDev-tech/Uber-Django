@@ -37,6 +37,9 @@ class Vehicle(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vehicle', default=None)
     plateNumber = models.CharField(max_length=20)
 
+    def get_type(self):
+        return self.vehicle_info.type[self.vehicleType][1]
+
 class Ride(models.Model):
     # search first if not find create a new one
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)

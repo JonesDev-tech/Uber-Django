@@ -30,13 +30,18 @@ urlpatterns = [
     #switch to driver portal redirect to vehicle regist or tasks
     path('driver/', views.switch_to_driver, name='switch to driver'),
     path('tasks/', views.driver_tasks, name='tasks'),
+    path('complete/<int:pk>', views.complete_task, name='complete task'),
+    path('my_vehicle/', views.check_my_vehicle, name='my vehicle'),
+    path('edit_vehicle/', views.EditVehicle.as_view(), name='edit vehicle'),
+
+    #delete driver account
+    path('delete_account/', views.delete_vehicle, name='delete account'),
+    path('delete_confirm/', views.delete_confirm, name='delete confirm'),
+
 
     path('search_tasks/', views.test_url, name='search tasks'),
-    path('confirm/<int:pk>', views.test_url, name='search tasks'),
+    path('confirm/<int:pk>', views.test_url, name='task confirm'),
 
-    path('my_vehicle/', views.test_url, name='my vehicle'),
-    #delete driver account
-    path('delete_account/', views.test_url, name='delete account'),
 
     path('test/', views.test_url, name='test'),
 
