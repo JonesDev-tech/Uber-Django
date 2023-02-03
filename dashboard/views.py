@@ -360,9 +360,10 @@ def change_password(request):
         return redirect('/login')
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
+        user = form.save(commit=False)
         if form.is_valid():
-            request.user.username = form.cleaned_data['username']
-            request.user.password = form.cleaned_data['password1']
+            request.user.username = user.username
+            request.user.password = user.password
             request.user.save()
             return redirect('/logout')
     else:
