@@ -76,7 +76,7 @@ class Ride(models.Model):
         return total
 
     def get_v_type(self):
-        if self.vehicleType:
+        if self.vehicleType >= 0:
             return self.vehicle_info.type[self.vehicleType][1]
         else:
             return "Not required"
