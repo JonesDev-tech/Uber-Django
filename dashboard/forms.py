@@ -111,6 +111,9 @@ class RideRequestForm(forms.ModelForm):
                 raise forms.ValidationError(
                     "To many passenger for this kind of car."
                 )
+        raise forms.ValidationError(
+            "test"
+        )
         return self.cleaned_data.get('passengerNum')
 
     class Meta:
@@ -118,7 +121,7 @@ class RideRequestForm(forms.ModelForm):
         fields = ['dest', 'arrive_time', 'passengerNum',
                   'vehicleType', 'if_share', 'special_req']
 
-    
+
 class SearchRide(forms.Form):
     address = forms.CharField(
         max_length=100,
