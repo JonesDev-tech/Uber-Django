@@ -9,8 +9,8 @@ urlpatterns = [
     path('require_ride/', views.require_ride, name='require ride'),
 
     path('ride_detail/<int:pk>', views.ride_detail, name='ride detail'),
-    path('ride_detail/<int:pk>/edit/', views.EditRide.as_view(), name='edit ride'),
-    # TODO: edit success
+    path('ride_detail/edit/', views.EditRide.as_view(), name='edit ride'),
+    path('ride_detail/edit/success', views.edit_success, name='ride edit success'),
     path('ride_detail/<int:pk>/cancel/', views.ride_cancel, name='cancel ride'),
     path('quit_ride/<int:pk>', views.quit_ride, name='quit ride'),
 
@@ -39,12 +39,6 @@ urlpatterns = [
     #delete driver account
     path('delete_account/', views.delete_vehicle, name='delete account'),
     path('delete_confirm/', views.delete_confirm, name='delete confirm'),
-
-
-
-
-
-    path('test/', views.test_url, name='test'),
 
     path('404/', views.handle_404, name='404')
 ]

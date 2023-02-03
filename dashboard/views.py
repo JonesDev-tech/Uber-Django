@@ -128,7 +128,7 @@ def ride_detail(request, pk):
 
     # driver
     if ride.vehicle:
-        driver_name = ride.vehicle.owner.first_name + ride.vehicle.owner.last_name
+        driver_name = ride.vehicle.owner.first_name + ' ' + ride.vehicle.owner.last_name
         plate = ride.vehicle.plateNumber
         driver_phone = ride.vehicle.owner.profile.mobile
         driver_email = ride.vehicle.owner.email
@@ -160,15 +160,15 @@ def ride_detail(request, pk):
     return render(request, 'dashboard/ride_detail.html',context)
 
 #TODO: remove all relations and send email
-def edit_success(request, pl):
-    return
+def edit_success(request):
+    return render(request, 'dashboard/ride_edit_success.html')
 
 class EditRide(SuccessMessageMixin, generic.UpdateView):
     model = Ride
     form_class = RideRequestForm
     template_name = 'dashboard/edit_ride.html'
     # redirect to this url after success
-    success_url = "/"
+    success_url = "/ride_detail/edit/success"
     success_message = "Changes successfully saved."
 
     # Check if the user is qualified for edit
@@ -178,6 +178,29 @@ class EditRide(SuccessMessageMixin, generic.UpdateView):
         ride = get_object_or_404(Ride, pk=self.kwargs['pk'])
         if not ride.owner == self.request.user:
             raise Http404
+
+        mail_list = []
+        for group in ride.shared_by_user.all():
+            if group.user != self.request.user:
+                mail_list.append(group.user.email)
+                ride.shared_by_user.remove(group)
+        ride.save()
+        mail_content = "<h3> Your Uber order has been canceled!</h3>" \
+                       "<p>This ride has been edited by owner, your shared ride has been canceled.</p>" \
+                       "<h4> Order information: </h4>" \
+                       "Order number: {order_id} <br>" \
+                       "Original destination: {dest} <br>" \
+                       "Original expected arrive time: {time} <br>" \
+                       "".format(order_id=ride.pk, dest=ride.dest,
+                                time=ride.arrive_time)
+        send_mail(
+            subject="Your order has been canceled!",
+            message='Email content',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=mail_list,
+            fail_silently=False,
+            html_message=mail_content
+        )
         return ride
 
 def search_ride(request):
@@ -521,9 +544,10 @@ def confirm_task(request, pk):
                 mail_list = [ride.owner.email]
                 for group in ride.shared_by_user.all():
                     mail_list.append(group.user.email)
-                mail_content = "<h2> Your Uber order has been confirmed!</h2>" \
+                mail_content = "<h3> Your Uber order has been confirmed!</h3>" \
+                               "<br>" \
                                "<h4> Order information: </h4>" \
-                               "<p> Order number: {order_id} <br>" \
+                               "Order number: {order_id} <br>" \
                                "Destination: {dest} <br>" \
                                "Expected arrive time: {time} <br>" \
                                "Driver's mobile: {phone}<br>" \
@@ -545,27 +569,51 @@ def confirm_task(request, pk):
     raise Http404
 
 def delete_vehicle(request):
-    return
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    if not hasattr(request.user, 'vehicle'):
+        return  redirect('/vehicle_reg')
+    return render(request, 'driver_side/delete_confirm.html')
 
 def delete_confirm(request):
-    return
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    if not hasattr(request.user, 'vehicle'):
+        return redirect('/vehicle_reg')
 
+    vehicle = request.user.vehicle
+    rides = Ride.objects.filter(
+        confirmed=True,
+        completed=False,
+        vehicle=vehicle
+    )
 
+    for ride in rides:
+        mail_list = []
+        for group in ride.shared_by_user.all():
+            mail_list.append(group.user.email)
 
-
-
-
-
-
-
-def test_url(request):
-    # try:
-    #     obj = MyModel.objects.get(pk=1)
-    # except MyModel.DoesNotExist:
-    # print(request.user.vehicle)
-    return
-
-
+        mail_content = "<h3> Your Uber order has been canceled!</h3>" \
+                       "<p>Your driver quited our platform, all his confirmed order were released and became open again.</p>" \
+                       "<h4> Order information: </h4>" \
+                       "Order number: {order_id} <br>" \
+                       "Destination: {dest} <br>" \
+                       "Expected arrive time: {time} <br>" \
+                       "".format(order_id=ride.pk, dest=ride.dest,
+                                 time=ride.arrive_time)
+        send_mail(
+            subject="Confirmed order be canceled!",
+            message='Email content',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=mail_list,
+            fail_silently=False,
+            html_message=mail_content
+        )
+        ride.confirmed = False
+        ride.vehicle = None
+        ride.save()
+    vehicle.delete()
+    return redirect('/profile')
 
 def handle_404(request):
     return render(request, '404/404.html')
