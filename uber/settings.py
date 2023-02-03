@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
 ]
-ADMIN_ENABLED = False
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
