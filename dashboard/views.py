@@ -383,7 +383,7 @@ def driver_tasks(request):
         completed = Ride.objects.filter(
             confirmed=True,
             completed=True,
-            owner = curr_user
+            vehicle=request.user.vehicle
         ).order_by("arrive_time")
         context = {"ongoing": ongoing,
                    "completed": completed,

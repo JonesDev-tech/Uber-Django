@@ -41,7 +41,7 @@
 <!--        <li><a class="dropdown-item" href="#">Settings</a></li>-->
         <li><a class="dropdown-item" href="{% url 'started_ride' %}">Switch to User Portal</a></li>
 <!--        <li><hr class="dropdown-divider"></li>-->
-        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+        <li><a class="dropdown-item" href="{% url 'logout' %}?next={% url 'login' %}">Sign out</a></li>
       </ul>
     </div>
   </div>
