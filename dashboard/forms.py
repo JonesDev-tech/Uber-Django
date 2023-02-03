@@ -111,7 +111,7 @@ class RideRequestForm(forms.ModelForm):
                 "Max 10 people."
             )
         if self.cleaned_data.get('vehicleType'):
-            if self.cleaned_data.get('passengerNum') + 1 > self.v_info.capacity[self.vehicleType]:
+            if self.cleaned_data.get('passengerNum') + 1 > self.v_info.capacity[self.cleaned_data.get('vehicleType')]:
                 raise forms.ValidationError(
                     "To many passenger for this kind of car."
                 )
