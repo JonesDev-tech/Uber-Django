@@ -99,7 +99,7 @@
       <td>{{ ride.arrive_time }}</td>
       <td>{{ ride.get_passenger_num }}</td>
         <td>{{ ride.get_v_type }}</td>
-        <td><a class="btn btn-secondary btn-sm" role="button" href="{% url 'task confirm' pk=ride.pk %}">Take Order</a></td>
+        <td><a class="btn btn-success btn-sm" role="button" href="{% url 'task confirm' pk=ride.pk %}">Take Order</a></td>
     </tr>
 {% endfor %}
   </tbody>
