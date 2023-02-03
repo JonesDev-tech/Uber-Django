@@ -42,3 +42,4 @@ urlpatterns = [
 
     path('404/', views.handle_404, name='404')
 ]
+handler404 = 'dashboard.views.response_error_handler'
