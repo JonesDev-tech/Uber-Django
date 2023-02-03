@@ -140,9 +140,7 @@ def ride_detail(request, pk):
         driver_email = "Unknown"
         driver = None
 
-    shared_by = ride.shared_by_user.exclude(
-        user=curr_user,
-    )
+    shared_by = ride.shared_by_user
     context = {
         "dest" : ride.dest,
         "arrive_time" : ride.arrive_time,
