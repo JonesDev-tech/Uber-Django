@@ -158,6 +158,7 @@ def ride_detail(request, pk):
     }
     return render(request, 'dashboard/ride_detail.html',context)
 
+#TODO: remove all relations and send email
 def edit_success(request, pl):
     return
 
@@ -347,10 +348,10 @@ def edit_profile(request):
     return render(request, 'dashboard/edit_profile.html', context={'user_form': user_form,
                                                                   'profile_form': profile_form})
 
+#TODO: change password
 def change_password(request):
     return
 
-# class as view
 def vehicle_registrate(request):
     if request.method == 'POST':
         vehicle_form = VehicleForm(request.POST)
@@ -372,7 +373,7 @@ def switch_to_driver(request):
 def driver_tasks(request):
     if not request.session.get('is_login', None):
         return redirect('/login')
-    elif not request.user.vehicle:
+    elif not hasattr(request.user, 'vehicle'):
         return  redirect('/')
     else:
         curr_user = get_object_or_404(User, id = request.session['user_id'])
@@ -393,12 +394,16 @@ def driver_tasks(request):
                    }
         return render(request, 'driver_side/driver_tasks.html', context)
 
+
+
 def test_url(request):
     # try:
     #     obj = MyModel.objects.get(pk=1)
     # except MyModel.DoesNotExist:
     # print(request.user.vehicle)
     return
+
+
 
 def handle_404(request):
     return render(request, '404/404.html')
