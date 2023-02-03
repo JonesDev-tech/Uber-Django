@@ -40,4 +40,5 @@ urlpatterns = [
 
     path('test/', views.test_url, name='test'),
 
+    path('404/', views.handle_404, name='404')
 ]

@@ -103,7 +103,7 @@ def ride_detail(request, pk):
         ride = get_object_or_404(Ride, pk=pk)
     except:
         raise Http404("This is not your ride! ")
-    
+
     curr_user = get_object_or_404(User, id=request.session['user_id'])
     if curr_user != ride.owner:
         find = False
@@ -397,3 +397,6 @@ def test_url(request):
     # except MyModel.DoesNotExist:
     # print(request.user.vehicle)
     return
+
+def handle_404(request):
+    return render(request, '404/404.html')
