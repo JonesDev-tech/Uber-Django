@@ -1,15 +1,15 @@
 from django.shortcuts import get_object_or_404, redirect, render, render
-from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide, PersonalInfoForm, VehicleForm, ChangePasswordForm
+from .forms import RegisterForm, ProfileForm, RideRequestForm, SearchRide, PersonalInfoForm, VehicleForm, ChangePasswordForm, SearchTask
 from .models import User, Profile, Ride, Group, Vehicle
-# from django.urls import reverse
+from django.core.mail import send_mail
 from django.utils import timezone
 from datetime import datetime
+from django.conf import settings
 from django.views import generic
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
 #TODO: Success 页面, edit删除ride所有共享成员, 邮件提醒
 #TODO: 检查非法输入
 # take second element for sort
@@ -221,7 +221,7 @@ def search_ride(request):
             rides = []
             message = "Input invalid" + str(list(form.errors.values())[0])
     else:
-        form = SearchRide(request.POST)
+        form = SearchRide()
         rides = []
         message = "Results will be displayed below. "
 
@@ -449,18 +449,108 @@ class EditVehicle(SuccessMessageMixin, generic.UpdateView):
         return vehicle
 
 def search_tasks(request):
-    return
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    if not hasattr(request.user, 'vehicle'):
+        return  redirect('/vehicle_reg')
+    if request.method == 'POST':
+        form = SearchTask(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            addr = cleaned_data.get('address')
+            start = cleaned_data.get('start')
+            end = cleaned_data.get('end')
+
+            start = start.astimezone(timezone.utc)
+            end = end.astimezone(timezone.utc)
+
+            rides = Ride.objects.filter(
+                completed=False,
+                confirmed=False,
+                arrive_time__gte=start,
+                arrive_time__lte=end
+            ).order_by("arrive_time")
+
+            if addr != '':
+                addr = str(addr).lower().split()
+                for word in addr:
+                    rides = [ride for ride in rides if word in str(ride.dest).lower()]
+
+            rides = [ride for ride in rides if \
+                     (not ride.vehicleType) or \
+                     ride.vehicleType == request.user.vehicle.vehicleType]
+
+            rides = [ride for ride in rides if \
+                     ride.get_passenger_num() + 1 <= \
+                     request.user.vehicle.get_capacity()]
+
+            rides = [ride for ride in rides if \
+                     (not ride.special_req) or ride.special_req == ''\
+                     or ride.special_req == request.user.vehicle.special_info]
+
+            rides.sort(key=lambda x: x.arrive_time)
+            message = "{number} orders found: ".format(number=str(len(rides)))
+        else:
+            rides = []
+            message = "Input invalid" + str(list(form.errors.values())[0])
+    else:
+        form = SearchRide()
+        rides = []
+        message = "Results will be displayed below. "
+
+    context = {
+        "rides": rides,
+        "msg": message,
+        "form": form
+    }
+    return render(request, 'driver_side/search_tasks.html', context=context)
 
 def confirm_task(request, pk):
-    return
+    if not request.session.get('is_login', None):
+        return redirect('/login')
+    if not hasattr(request.user, 'vehicle'):
+        return  redirect('/vehicle_reg')
+    ride = get_object_or_404(Ride, pk=pk)
+    curr_user = request.user
+    if (not ride.vehicle) or ride.vehicle == curr_user.vehicle.vehicleType:
+        if ride.get_passenger_num() + 1 <= \
+           request.user.vehicle.get_capacity():
+            if (not ride.special_req) or ride.special_req == ''\
+                     or ride.special_req == request.user.vehicle.special_info:
+                ride.confirmed = True
+                ride.vehicle = curr_user.vehicle
+                ride.save()
+                mail_list = [ride.owner.email]
+                for group in ride.shared_by_user.all():
+                    mail_list.append(group.user.email)
+                mail_content = "<h2> Your Uber order has been confirmed!<\h2>" \
+                               "<h4> Order information: <\h4>" \
+                               "<p> Order number: {order_id} <br>" \
+                               "Destination: {dest} <br>" \
+                               "Expected arrive time: {time} <br>" \
+                               "Driver's mobile: {phone}<br>" \
+                               "Car plate: {plate}<br><br>" \
+                               "Travel Safe! ".format(order_id = ride.pk, dest = ride.dest,
+                                         time = ride.arrive_time,
+                                         phone = ride.vehicle.owner.profile.mobile,
+                                         plate = ride.vehicle.plateNumber
+                                         )
+                send_mail(
+                    subject="Your order has been confirmed!",
+                    message='Email content',
+                    from_email= settings.EMAIL_HOST_USER,
+                    recipient_list=mail_list,
+                    fail_silently=False,
+                    html_message=mail_content
+                )
+                return redirect('/tasks')
+    raise Http404
 
 def delete_vehicle(request):
     return
 
 def delete_confirm(request):
     return
-
-
 
 
 

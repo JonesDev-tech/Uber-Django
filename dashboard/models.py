@@ -36,9 +36,13 @@ class Vehicle(models.Model):
     vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description, blank=False, null=False)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vehicle', default=None)
     plateNumber = models.CharField(max_length=20)
+    special_info = models.TextField(max_length=100, blank=True, default='')
 
     def get_type(self):
         return self.vehicle_info.type[self.vehicleType][1]
+
+    def get_capacity(self):
+        return self.vehicle_info.capacity[self.vehicleType]
 
 class Ride(models.Model):
     # search first if not find create a new one
@@ -51,8 +55,9 @@ class Ride(models.Model):
 
     vehicleType = models.IntegerField(choices=vehicle_info.type, help_text=vehicle_info.description, blank=True, default=None)
     dest = models.TextField(max_length=100)
+    special_req = models.TextField(max_length=100, blank=True, default='')
     arrive_time = models.DateTimeField()
-    if_share = models.BooleanField(default=False)
+    if_share = models.BooleanField()
     
     # status
     completed = models.BooleanField(default=False)

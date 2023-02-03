@@ -33,14 +33,15 @@ urlpatterns = [
     path('complete/<int:pk>', views.complete_task, name='complete task'),
     path('my_vehicle/', views.check_my_vehicle, name='my vehicle'),
     path('edit_vehicle/', views.EditVehicle.as_view(), name='edit vehicle'),
+    path('search_tasks/', views.search_tasks, name='search tasks'),
+    path('confirm/<int:pk>', views.confirm_task, name='task confirm'),
 
     #delete driver account
     path('delete_account/', views.delete_vehicle, name='delete account'),
     path('delete_confirm/', views.delete_confirm, name='delete confirm'),
 
 
-    path('search_tasks/', views.test_url, name='search tasks'),
-    path('confirm/<int:pk>', views.test_url, name='task confirm'),
+
 
 
     path('test/', views.test_url, name='test'),
