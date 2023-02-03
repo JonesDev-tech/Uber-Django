@@ -113,12 +113,10 @@
 
               {% for group in shared_by %}
                   {%  if ride.owner == group.user %}
-                      <div class="col">
-                  <div class="card shadow-sm">
-                    <div class="card-body"><div class="col">
+                     <div class="col">
                   <div class="card shadow-sm">
                     <div class="card-body">
-                          (Owner)
+                         (Owner)
                           <div class="d-flex justify-content-between align-items-center">
                             <strong class="mb-1">Name:</strong>
                             <small class="text-muted">{{group.user.first_name}}, {{group.user.last_name}}</small>
