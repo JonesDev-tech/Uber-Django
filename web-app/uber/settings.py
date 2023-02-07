@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_5o)(a9#d&2f-s+ajd^@!tcp0%brbtepw4g3@k$$rubh@c3s61
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['web', '*']
 
 
 # Application definition
@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'uber.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uber',
-        'USER': 'admin',
-        'PASSWORD': 'Zsh990903',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -132,6 +132,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+CSRF_TRUSTED_ORIGINS = ['http://*.vcm-30745.vm.duke.edu:8000','http://*.127.0.0.1:8000']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
