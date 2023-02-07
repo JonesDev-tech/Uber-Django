@@ -493,7 +493,7 @@ def search_tasks(request):
                 confirmed=False,
                 arrive_time__gte=start,
                 arrive_time__lte=end
-            ).order_by("arrive_time")
+            ).exclude(owner=request.user).order_by("arrive_time")
 
             if addr != '':
                 addr = str(addr).lower().split()
